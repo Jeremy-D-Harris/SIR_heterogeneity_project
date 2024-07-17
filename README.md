@@ -1,5 +1,5 @@
 # SIR_heterogeneity_project
-# Infections are not all alike: the effect of covariation between individual-level susceptibility and transmissibility on population-level epidemic dynamics
+## Infections are not all alike: the effect of covariation between individual-level susceptibility and transmissibility on population-level epidemic dynamics
 Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 
  -- updated 02/01/24 by JDH --
