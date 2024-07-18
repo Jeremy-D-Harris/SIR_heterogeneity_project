@@ -49,11 +49,11 @@ mean_joint = 1;
 N = 1; % population size
 
 % discrete mesh
-n = 100; % number transmissibility classes
+n = 50; % number transmissibility classes
 m = n; % susceptibilty classes
 
-eps = 0:1:m;
-del = 0:1:n;
+eps = 0.5:1:(m+0.5);
+del = 0.5:1:(n+0.5);
 
 eps_plt = eps;
 eps(1)=0.05;
