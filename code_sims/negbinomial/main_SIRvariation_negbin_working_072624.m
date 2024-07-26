@@ -33,7 +33,7 @@ filename_distributions_load = 'negbinomial_joint_expgrowth_poscorr.mat';
 % filename_distributions_save = 'negbinomial_joint_expgrowth_poscorr.mat';
 
 
-readin_init_joint = 1;
+readin_init_joint = 0;
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
