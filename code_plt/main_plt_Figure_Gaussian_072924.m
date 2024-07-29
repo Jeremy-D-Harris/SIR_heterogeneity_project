@@ -1,4 +1,4 @@
-% function void = main_plt_Figure_Gamma_072824(void)
+% function void = main_plt_Figure_Gaussian_072924(void)
 
 % plot results SIR model with transmissibility & susceptibility variation
 
@@ -12,7 +12,7 @@ save_fig_ans = 0;
 % save figure:
 % 0 = no, 1 = yes
 
-figure_name = 'Figure1_Gamma_072924';
+figure_name = 'Figure3_Gaussian_072924';
 
 % medium blue, black, grey, violet, green
 colors_rgb = [74,112,188.5; 0 0 0; 166 166 166; 169,90,161;0, 158, 115]/255;
@@ -28,10 +28,10 @@ file_location = '../data/';
 
 
 % results from simulations
-infile_results = 'Gamma_update072824.mat';
+infile_results = 'Gaussian_update072924.mat';
 load(strcat(file_location,infile_results));
 
-fprintf('Plotting Results of Gamma Distribution... \n');
+fprintf('Plotting Results of Gaussian Distribution... \n');
 
 %% Plotting
 % f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
@@ -86,12 +86,12 @@ legend(this_p,{legend_char1,legend_char2, legend_char3, legend_char4}, 'Position
 subplot(2,3,2);
 this_q(2) = plot(params.t_span, results.CV2_eps_S_traj,'Color',colors_rgb(1,:),'LineWidth',2.5);hold on;
 this_q(1) = plot(params.t_span, results_var_susc.CV2_eps_S_traj,'--','Color',colors_rgb(2,:),'LineWidth',2.5); hold on;
-this_q(3) = plot(params.t_span, 1/params.shape_eps*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
+this_q(3) = plot(params.t_span, params.variance_eps_S./results.mean_eps_S_traj.^2,':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
 
-text(0.7,0.6,'$\frac{1}{k_{\varepsilon}} = \frac{1}{3}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
+% text(0.7,0.6,'$\frac{1}{k_{\varepsilon}} = \frac{1}{3}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
 % this_p(1).Color(4) = 0.8;
 
-axis([0 this_t_end_plt 0 0.5]);
+axis([0 this_t_end_plt 0 2]);
 xlabel('Time (days)'); 
 ylabel({'Coefficient of Variation (Squared)'});
 title('Susceptibility','FontWeight','normal');
@@ -112,16 +112,17 @@ legend_char3 = 'Reduced Model';
 
 legend(this_q,{legend_char1,legend_char2, legend_char3},'Position',[0.502 0.855 0.085 0.06],'FontSize',10,'Interpreter','latex');
 
-% panel C: CV transmissibility
+%% panel C: CV transmissibility
 subplot(2,3,3);
 this_r(2) = plot(params.t_span, results.CV2_delta_I_traj,'Color',colors_rgb(1,:),'LineWidth',2.5);hold on;
 this_r(1) = plot(params.t_span, results.CV2_delta_S_traj,'--','Color',colors_rgb(3,:),'LineWidth',2.5);hold on;
 % this_r(1).Color(4) = 0.85;
-this_r(3) = plot(params.t_span, 1/params.shape_delta*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
+% this_r(3) = plot(params.t_span, 1/params.shape_delta*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
+this_r(3) = plot(params.t_span, params.variance_delta_S/params.mean_delta_S^2*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
 
-text(0.7,0.125,'$\frac{1}{k_\delta} = \frac{1}{10}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
+% text(0.7,0.125,'$\frac{1}{k_\delta} = \frac{1}{10}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
 
-axis([0 this_t_end_plt 0 0.5]);
+axis([0 this_t_end_plt 0 1]);
 xlabel('Time (days)'); 
 ylabel({'Coefficient of Variation (Squared)'});
 title('Transmissibility','FontWeight','normal');
@@ -178,7 +179,7 @@ plot(results.mean_eps_S_traj(ind_time_pt),0,'o','Color',colors_rgb(4,:),'LineWid
     
 text(0.33,0.07,'$\overline{\varepsilon}$','Interpreter','Latex','Units','normalized','FontSize',16)
     
-axis([0 3 0 1.08]);
+axis([0 3 0 0.8]);
 yticks([]);
 xlabel('Susceptibility, $\varepsilon$','interpreter','latex');
 ylabel({'Population Density'});
@@ -208,7 +209,7 @@ plot(results.mean_delta_I_traj(ind_time_pt),0,'o','Color',colors_rgb(4,:),'LineW
 
 text(0.33,0.07,'$\overline{\delta}$','Interpreter','Latex','Units','normalized','FontSize',16)
 
-axis([0 3 0 1.8]);
+axis([0 3 0 0.9]);
 
 yticks([]);
 xlabel('Transmissibility, $\delta$','interpreter','latex');

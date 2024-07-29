@@ -1,4 +1,4 @@
-% function void = main_plt_Figure_Gamma_072824(void)
+% function void = main_plt_Figure_Gaussian_lowvariance_072924(void)
 
 % plot results SIR model with transmissibility & susceptibility variation
 
@@ -8,11 +8,11 @@
 
 clear all; close all; clc;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 
-figure_name = 'Figure1_Gamma_072924';
+figure_name = 'Figure2_Gaussian_lowvariance_072924';
 
 % medium blue, black, grey, violet, green
 colors_rgb = [74,112,188.5; 0 0 0; 166 166 166; 169,90,161;0, 158, 115]/255;
@@ -28,10 +28,10 @@ file_location = '../data/';
 
 
 % results from simulations
-infile_results = 'Gamma_update072824.mat';
+infile_results = 'Gaussian_lowvariance_update072924.mat';
 load(strcat(file_location,infile_results));
 
-fprintf('Plotting Results of Gamma Distribution... \n');
+fprintf('Plotting Results of Gaussian Distribution... \n');
 
 %% Plotting
 % f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
@@ -48,14 +48,14 @@ this_p(4) = plot(params.t_span, results_reduced.total_incidence,':','Color',colo
 for kk = 1:2
     if kk==1
 
-    % plot(0,this_total_incidence_interp(this_ind_t_int(kk)),'o','Color',colors_rgb(2,:),'MarkerSize',8, 'LineWidth',2); hold on;
-    plot(0,results.total_incidence(1),'o','Color',colors_rgb(2,:),'MarkerSize',8, 'LineWidth',2); hold on;
-    text(0.01,0.074,'$t_0$','Interpreter','Latex','Units','normalized','FontSize',16)
+        % plot(0,this_total_incidence_interp(this_ind_t_int(kk)),'o','Color',colors_rgb(2,:),'MarkerSize',8, 'LineWidth',2); hold on;
+        plot(0,results.total_incidence(1),'o','Color',colors_rgb(2,:),'MarkerSize',8, 'LineWidth',2); hold on;
+        text(0.01,0.074,'$t_0$','Interpreter','Latex','Units','normalized','FontSize',16)
     else
-    
-    
-    plot(params.t_span(ind_time_pt),results.total_incidence(ind_time_pt),'o','Color',colors_rgb(4,:),'MarkerSize',8, 'LineWidth',2); hold on;
-    text(0.21,0.1,'$t_1$','Interpreter','Latex','Units','normalized','FontSize',16)
+
+
+        plot(params.t_span(ind_time_pt),results.total_incidence(ind_time_pt),'o','Color',colors_rgb(4,:),'MarkerSize',8, 'LineWidth',2); hold on;
+        text(0.21,0.1,'$t_1$','Interpreter','Latex','Units','normalized','FontSize',16)
     end
 
 end
@@ -86,13 +86,13 @@ legend(this_p,{legend_char1,legend_char2, legend_char3, legend_char4}, 'Position
 subplot(2,3,2);
 this_q(2) = plot(params.t_span, results.CV2_eps_S_traj,'Color',colors_rgb(1,:),'LineWidth',2.5);hold on;
 this_q(1) = plot(params.t_span, results_var_susc.CV2_eps_S_traj,'--','Color',colors_rgb(2,:),'LineWidth',2.5); hold on;
-this_q(3) = plot(params.t_span, 1/params.shape_eps*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
+this_q(3) = plot(params.t_span, params.variance_eps_S./results.mean_eps_S_traj.^2,':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
 
-text(0.7,0.6,'$\frac{1}{k_{\varepsilon}} = \frac{1}{3}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
+% text(0.7,0.6,'$\frac{1}{k_{\varepsilon}} = \frac{1}{3}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
 % this_p(1).Color(4) = 0.8;
 
 axis([0 this_t_end_plt 0 0.5]);
-xlabel('Time (days)'); 
+xlabel('Time (days)');
 ylabel({'Coefficient of Variation (Squared)'});
 title('Susceptibility','FontWeight','normal');
 f1=gca;
@@ -112,17 +112,18 @@ legend_char3 = 'Reduced Model';
 
 legend(this_q,{legend_char1,legend_char2, legend_char3},'Position',[0.502 0.855 0.085 0.06],'FontSize',10,'Interpreter','latex');
 
-% panel C: CV transmissibility
+%% panel C: CV transmissibility
 subplot(2,3,3);
 this_r(2) = plot(params.t_span, results.CV2_delta_I_traj,'Color',colors_rgb(1,:),'LineWidth',2.5);hold on;
 this_r(1) = plot(params.t_span, results.CV2_delta_S_traj,'--','Color',colors_rgb(3,:),'LineWidth',2.5);hold on;
 % this_r(1).Color(4) = 0.85;
-this_r(3) = plot(params.t_span, 1/params.shape_delta*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
+% this_r(3) = plot(params.t_span, 1/params.shape_delta*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
+this_r(3) = plot(params.t_span, params.variance_delta_S/params.mean_delta_S^2*ones(size(params.t_span)),':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
 
-text(0.7,0.125,'$\frac{1}{k_\delta} = \frac{1}{10}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
+% text(0.7,0.125,'$\frac{1}{k_\delta} = \frac{1}{10}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
 
-axis([0 this_t_end_plt 0 0.5]);
-xlabel('Time (days)'); 
+axis([0 this_t_end_plt 0 0.1]);
+xlabel('Time (days)');
 ylabel({'Coefficient of Variation (Squared)'});
 title('Transmissibility','FontWeight','normal');
 f1=gca;
@@ -135,10 +136,10 @@ f1.FontName = 'Times';
 txt = {'C'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
- 
-legend_char1 = 'Variation Potential Transmissibility $(\varepsilon,\,\delta)$ '; 
-legend_char2 = 'Variation Effective Transmissibility $(\varepsilon,\,\delta)$, '; 
-legend_char3 = 'Reduced Model'; 
+
+legend_char1 = 'Variation Potential Transmissibility $(\varepsilon,\,\delta)$ ';
+legend_char2 = 'Variation Effective Transmissibility $(\varepsilon,\,\delta)$, ';
+legend_char3 = 'Reduced Model';
 
 legend(this_r,{legend_char1,legend_char2,legend_char3}, 'interpreter','latex','Position',[0.755 0.855 0.095 0.06],'FontSize',10);
 
@@ -175,10 +176,10 @@ this_s(2) = plot(params.eps,results.marginal_eps_S_traj(ind_time_pt,:),'--','Col
 plot(results.mean_eps_S_traj(1),0,'o','Color',colors_rgb(2,:),'LineWidth',2,'MarkerSize',14);
 plot(results.mean_eps_S_traj(ind_time_pt),0,'o','Color',colors_rgb(4,:),'LineWidth',2,'MarkerSize',9);
 
-    
+
 text(0.33,0.07,'$\overline{\varepsilon}$','Interpreter','Latex','Units','normalized','FontSize',16)
-    
-axis([0 3 0 1.08]);
+
+axis([0 3 0 1.5]);
 yticks([]);
 xlabel('Susceptibility, $\varepsilon$','interpreter','latex');
 ylabel({'Population Density'});
@@ -208,7 +209,7 @@ plot(results.mean_delta_I_traj(ind_time_pt),0,'o','Color',colors_rgb(4,:),'LineW
 
 text(0.33,0.07,'$\overline{\delta}$','Interpreter','Latex','Units','normalized','FontSize',16)
 
-axis([0 3 0 1.8]);
+axis([0 3 0 2.4]);
 
 yticks([]);
 xlabel('Transmissibility, $\delta$','interpreter','latex');
@@ -232,14 +233,14 @@ legend(this_t,{legend_char1,legend_char2}, 'Interpreter','Latex','Position',[0.7
 
 %% save figure?
 if save_fig_ans==1
-    
+
     figures_location = './../figures/';
     saveas(f1,strcat(figures_location,figure_name),'epsc');
-    
-    fprintf('Figure saved:\n'); 
+
+    fprintf('Figure saved:\n');
     fprintf(strcat(figure_name,'\n\n'));
-    
-    fprintf('Location:\n'); 
+
+    fprintf('Location:\n');
     fprintf(strcat(figures_location,'\n\n'));
-    
+
 end
