@@ -12,7 +12,7 @@ save_results = 0;
 % 0: don't save
 % 1: save
 
-filename_results = 'Gamma_update072824.mat';
+filename_results = 'Gaussian_update072924.mat';
 
 %% options
 % run & save Classic SIR?
@@ -39,7 +39,7 @@ index_day_distribution = 50; % what time? (days)
 
 % want to read in distribution from a file?
 readin_init_joint = 0;
-% filename_distributions_load = 'Gamma_joint_expgrowth.mat';
+% filename_distributions_load = 'GaussianIndependent_joint_expgrowth.mat';
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
@@ -113,69 +113,68 @@ if readin_init_joint
 else
 
     fprintf('Initial Distributions: \n');
-    fprintf('Paremtrized Gamma Distribution \n\n');
+    fprintf('Paremtrized Gaussian Distribution \n\n');
 
     %% variation in susceptibility/transmissibility
-    % using Gamma distributions
-    % see: https://www.mathworks.com/help/stats/gampdf.html
-    % y = gampdf(x,a,b) = (1/b)^a x^(a-1)/(n-1)! exp(-x/b)
-    % mean = a*b
-    % variance = a*b^2
-    % Let a be the shape parameter, and then:
-    % substitute: b = eps_bar/a
-    % -> mean = eps_bar; variance = eps_bar^2/a
-    % -> CV^2 = 1/a -> CV = 1/sqrt(a)
+    % multivariate Normal Distribution:
+    % https://www.mathworks.com/help/stats/mvnpdf.html
 
 
     %% Initialize Distributions
 
-    % % shape parameters
-    shape_eps = 3; % larger shape, smaller variance
-    shape_delta = 10;
-
-    params.shape_eps = shape_eps;
-    params.shape_delta = shape_delta;
-
-
     % could better name 'intended'
-    %
-    set_mean_eps_S = 1;
-    set_mean_delta_S = 1;
-    set_mean_eps_I = 1;
-    set_mean_delta_I = 1;
-    %
+    set_mean_eps_S = 0.51;
+    set_mean_delta_S = 0.86;
+    set_mean_eps_I = set_mean_eps_S;
+    set_mean_delta_I = set_mean_delta_S;
+    
     params.set_mean_eps_S = set_mean_eps_S;
-    params.set_mean_delta_I = set_mean_delta_I;
+    params.set_mean_delta_S = set_mean_delta_S;
+    % params.set_mean_eps_I = set_mean_eps_I;
+    % params.set_mean_delta_I = set_mean_delta_I;
+
+    [X1, X2] = meshgrid(eps,del);
+    X = [X1(:) X2(:)];
+    mean_S = [set_mean_eps_S set_mean_delta_S]; %means for S
+    mean_I = [set_mean_eps_I set_mean_delta_I]; %means for I
+
+    corr_coeff = 0; % -0.8, 0, 0.8;
+    set_variance_eps = 1;
+    set_variance_delta = 0.5;
+
+    offdiagonal_Sigma = corr_coeff*sqrt(set_variance_eps)*sqrt(set_variance_delta);
+
+    Sigma_S = [set_variance_eps, offdiagonal_Sigma; offdiagonal_Sigma, set_variance_delta]; %change off-diagonals for correlation
+
+    init_joint_S = mvnpdf(X, mean_S, Sigma_S);
+    init_joint_S = reshape(init_joint_S,length(del),length(eps))/sum(sum(init_joint_S))/dx/dx;
+    init_joint_I = init_joint_S;
+    
+    
+    % marginals
+    marginal_eps_S = dx*sum(init_joint_S);
+    marginal_delta_S = dx*sum(init_joint_S,2)';
+
+    marginal_eps_I = dx*sum(init_joint_I);
+    marginal_delta_I = dx*sum(init_joint_I,2)';
 
 
-    % susceptibility distribution in susceptible pop - g_S(eps)
-    marg_eps_S = gampdf(eps,shape_eps,set_mean_eps_S/shape_eps);
-    marg_eps_S = marg_eps_S./sum(marg_eps_S)/dx; %normalize
+    % Calculated Means
+    mean_eps_S = dx*sum(eps.*marginal_eps_S);
+    mean_delta_S = dx*sum(del.*marginal_delta_S);
+    mean_eps_I = dx*sum(eps.*marginal_eps_I);
+    mean_delta_I = dx*sum(del.*marginal_delta_I);
 
-    %potential transmissibility distribution in susceptible pop - h_S(delta)
-    marg_delta_S = gampdf(del,shape_delta, set_mean_delta_S/shape_delta);
-    marg_delta_S = marg_delta_S./sum(marg_delta_S)/dx; %normalize
+    % Calculated variance in S
+    variance_eps_S = dx*sum((eps- mean_eps_S*ones(size(eps))).^2.*marginal_eps_S);
+    variance_delta_S = dx*sum((del- mean_delta_S*ones(size(del))).^2.*marginal_delta_S);
 
-    %inactive susceptibility distribution in infectious pop
-    marg_eps_I = gampdf(eps,shape_eps,set_mean_eps_I/shape_eps);
-    marg_eps_I = marg_eps_I/sum(marg_eps_I)/dx; % normalize
-
-    %effective transmissibility distribution in infectious pop - h_I(delta)
-    marg_delta_I = gampdf(del,shape_delta, set_mean_delta_I/shape_delta);
-    marg_delta_I = marg_delta_I./sum(marg_delta_I)/dx; %normalize
-
-
-    %Independent Joint Distributions = Product of Marginals
-    init_joint_S = marg_delta_S'*marg_eps_S;
-    init_joint_I = marg_delta_I'*marg_eps_I;
-
-    %Calculated Means
-    mean_delta_S = dx*sum(del.*marg_delta_S);
-    mean_eps_S = dx*sum(eps.*marg_eps_S);
-    mean_delta_I = dx*sum(del.*marg_delta_I);
-
-    params.mean_eps_S = mean_eps_S;
+    params.mean_eps_S = mean_eps_S
+    params.mean_delta_S = mean_delta_S
     params.mean_delta_I = mean_delta_I;
+    params.mean_eps_I = mean_eps_I;
+    params.variance_eps_S = variance_eps_S;
+    params.variance_delta_S = variance_delta_S;
     params.init_joint_S = init_joint_S;
     params.init_joint_I = init_joint_I;
 
@@ -192,7 +191,7 @@ init_marginal_delta_I = dx*sum(init_joint_I,2)';
 
 
 %% Initializing Eigendirections
-eps_perturb = 6e-5; % SIR peaks at 100 days
+eps_perturb = 1.05e-4; % SIR peaks at 100 days
 
 [eigen_direction_SIR_ed] = get_eigendirection_mean_eps_delta(params);
 
@@ -454,7 +453,7 @@ if run_reduced_SIR
 
     init_conds_SIR_reduced = [S_traj(1);I_traj(1);R_traj(1);mean_eps_S_traj(1)];
 
-    [t,y_traj_reduced] = ode45(@(t,y)simulate_SIR_reducedgamma(t,y,params), params.t_span, init_conds_SIR_reduced, options);
+    [t,y_traj_reduced] = ode45(@(t,y)simulate_SIR_reducedgaussian(t,y,params), params.t_span, init_conds_SIR_reduced, options);
 
     S_traj_SIR_reduced = y_traj_reduced(:,1);
     I_traj_SIR_reduced = y_traj_reduced(:,2);
@@ -473,7 +472,7 @@ if run_reduced_SIR
     SIR_traj_reduced(:,3) = R_traj_SIR_reduced;
     SIR_traj_reduced(:,4) = mean_eps_traj_SIR_reduced;
 
-    Rt_traj_reduced = transpose(get_Rt_SIR_reducedgamma(params,SIR_traj_reduced));
+    Rt_traj_reduced = transpose(get_Rt_SIR_reducedgaussian(params,SIR_traj_reduced));
     results_reduced.Rt_traj = Rt_traj_reduced;
 
     % total incidence
@@ -502,21 +501,21 @@ q(1)=plot(params.t_span, S_traj,'Color',my_rgb_colors(3,:),'LineWidth',2); hold 
 q(2)=plot(params.t_span, I_traj,'Color',my_rgb_colors(2,:),'LineWidth',2); hold on;
 q(3)=plot(params.t_span, R_traj,'Color',my_rgb_colors(1,:),'LineWidth',2); hold on;
 
-if run_variation_susc_SIR
+% if run_variation_susc_SIR
+% 
+%     plot(params.t_span, S_traj_var_susc,'k--','LineWidth',2); hold on;
+%     plot(params.t_span, I_traj_var_susc,'k--','LineWidth',2); hold on;
+%     plot(params.t_span, R_traj_var_susc,'k--','LineWidth',2); hold on;
+% 
+% end
 
-    plot(params.t_span, S_traj_var_susc,'k--','LineWidth',2); hold on;
-    plot(params.t_span, I_traj_var_susc,'k--','LineWidth',2); hold on;
-    plot(params.t_span, R_traj_var_susc,'k--','LineWidth',2); hold on;
+if run_reduced_SIR
+
+    plot(params.t_span, S_traj_SIR_reduced,'k--','LineWidth',2); hold on;
+    plot(params.t_span, I_traj_SIR_reduced,'k--','LineWidth',2); hold on;
+    plot(params.t_span, R_traj_SIR_reduced,'k--','LineWidth',2); hold on;
 
 end
-
-% if run_reduced_SIR
-%
-%     plot(params.t_span, S_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, I_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, R_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%
-% end
 
 axis([0 t_end 0 1.1]);
 xlabel('Time (days)'); ylabel({'Population'; 'Fraction'});
