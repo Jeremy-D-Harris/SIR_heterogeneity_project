@@ -35,8 +35,8 @@ function [S_traj_v, I_traj_v, R_traj_v, Rt_SIR_v, FOS_SIR_traj, params] = simula
     params.n = n;
     params.m = m;
 
-    t_start = 0; t_end = 400; % 200 days is about 6-7 months; 250 is 8-9 months
-    t_span = t_start:0.2:t_end;
+    t_start = 0; t_end = 300; % 200 days is about 6-7 months; 250 is 8-9 months
+    t_span = t_start:1:t_end;
     params.t_span = t_span;
 
 

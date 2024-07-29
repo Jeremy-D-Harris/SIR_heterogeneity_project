@@ -1,17 +1,22 @@
-function eigen_vector = get_eigendirection_SIRdelta_eps(params)
+function [eigen_vector] = get_eigendirection_SIRdelta_eps(params)
 
 
 %% parameters
 % parameters to local variables
 bet=params.beta; 
 gam = params.gamma;
+joint_s = params.joint_s;
+joint_i = params.joint_i;
+D = params.D;
+E = params.E;
+epsilon_S = params.mu_eps_S; %note - these are the 'actual' mean values
+delta_I = params.mu_delta_I; % these are the mean values with truncation
 
-epsilon_S = params.mu_eps_S; 
-delta_I = params.mu_delta_I; 
-
+sizes = size(D);
+n = sizes(1);
+m = sizes(2);
 
 %% SIR Version
-% note - using this version
 % disease free state
 S = 1; I = 0; R = 0; %at t = 0
 
@@ -26,8 +31,8 @@ dRdt = [0,gam,0];
 A = [dSdt;dIdt;dRdt];
 
 [eigen_directions, eigen_values] = eig(A); % get eigenvalues/eigenvectors
-% eigen_directions
-% eigen_values
+eigen_directions
+eigen_values
 [val, ind] = max(diag(eigen_values));
 eigen_vector = eigen_directions(:,ind);% corresponds to max eigenvalue
 end

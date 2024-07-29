@@ -11,7 +11,7 @@ imagesc(eps_plt,del_plt,joint_S);
 %axis xy;
 set(gca,'YDir','normal');
 colorbar;
-xlim([0 4.5]); ylim([0 4.5]);
+xlim([0 3]); ylim([0 3]);
 
 xlabel('susceptibility $\varepsilon$','interpreter','latex');
 ylabel({'transmissibility $\delta$'},'interpreter','latex');
@@ -40,8 +40,8 @@ p(2)=plot(del_plt, marg_delta_S,'.-','Color',my_rgb_colors(2,:),'LineWidth',2.5,
 % q=bar(eps,cat_margs);
 % axis([0 4.5 0 2]);
 
-% axis([0 4 0 2]);
-title('Marginal Distributions');
+xlim([0 3]);
+title('Marginal Distributions in S');
 % xlabel('transmissibility \varepsilon');
 
 xlabel('susceptibility $\varepsilon$ or transmissibility $\delta$','interpreter','latex');
@@ -53,7 +53,7 @@ f1.FontSize = 14;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-legend(p,{'Susceptibility','Potential Transmissibility'},'Location','NorthEast');
+legend(p,{'Susceptibility','Transmissibility'},'Location','NorthEast');
 
 
 
@@ -65,6 +65,7 @@ imagesc(eps_plt,del_plt,joint_I);
 set(gca,'YDir','normal');
 colorbar;
 % xlim([0 4.5]); ylim([0 4.5]);
+xlim([0 3]); ylim([0 3]);
 
 xlabel('susceptibility $\varepsilon$','interpreter','latex');
 ylabel({'transmissibility $\delta$'},'interpreter','latex');
@@ -92,8 +93,8 @@ q(2)=plot(del_plt, marg_delta_I,'.-','Color',my_rgb_colors(2,:),'LineWidth',2.5,
 % q=bar(eps,cat_margs);
 % axis([0 4.5 0 2]);
 
-% axis([0 4 0 1]);
-title('Marginal Distributions');
+xlim([0 3]); 
+title('Marginal Distributions in I');
 % xlabel('transmissibility, \delta');
 
 xlabel('susceptibility $\varepsilon$ or transmissibility $\delta$','interpreter','latex');
