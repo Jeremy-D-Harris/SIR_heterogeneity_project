@@ -1,0 +1,16 @@
+# ignore the following folders
+/code_sims/Gaussian_nontruncated
+
+/code_sims/Gaussian_truncated
+
+/code_sims/negbinomial
+
+/data/GammaInd
+
+/data/GaussianInd
+
+/data/gaussianTruncatedVar1
+
+/data/negbinomial
+
+
