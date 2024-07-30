@@ -8,7 +8,7 @@ clear all; close all; clc;
 
 
 %% want to save results?
-save_results = 1;
+save_results = 0;
 % 0: don't save
 % 1: save
 
