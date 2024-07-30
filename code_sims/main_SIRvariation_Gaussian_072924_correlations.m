@@ -9,7 +9,7 @@ clear all; close all; clc;
 
 
 %% want to save results?
-save_results = 1;
+save_results = 0;
 % 0: don't save
 % 1: save
 
@@ -162,7 +162,9 @@ else
     mean_S = [set_mean_eps_S set_mean_delta_S]; %means for S
     mean_I = [set_mean_eps_I set_mean_delta_I]; %means for I
 
-    % corr_coeff = 0; % -0.8, 0, 0.8;
+    % realized variance ends up being around:
+    % eps = 0.49
+    % delta = 0.34
     set_variance_eps = 1;
     set_variance_delta = 0.5;
 
@@ -186,7 +188,7 @@ init_marginal_eps_I = dx*sum(init_joint_I);
 init_marginal_delta_I = dx*sum(init_joint_I,2)';
 
 
-% Calculated Means
+% Calculated Means: want to be = 1
 mean_eps_S = dx*sum(eps.*init_marginal_eps_S);
 mean_delta_S = dx*sum(del.*init_marginal_delta_S);
 mean_eps_I = dx*sum(eps.*init_marginal_eps_I);
@@ -199,7 +201,8 @@ variance_delta_S = dx*sum((del- mean_delta_S*ones(size(del))).^2.*init_marginal_
 % Calculated covariance in S
 covariance_S = dx*dx*(del- mean_delta_S*ones(size(del)))*init_joint_S*(eps- mean_eps_S*ones(size(eps)))';
 
-% corr_coeff
+% corr_coeff: want vary from:
+% -0.6, -0.3, 0.3, 0.6
 set_corr_coeff = covariance_S/variance_eps_S/variance_delta_S;
 
 params.mean_eps_S = mean_eps_S;
