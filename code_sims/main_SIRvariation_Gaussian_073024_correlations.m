@@ -17,9 +17,9 @@ save_results = 1;
 
 % filename_results = 'GaussianPositiveCorrelation_0pt6.mat';
 % filename_results = 'GaussianPositiveCorrelation_0pt3.mat';
-filename_results = 'GaussianNoCorrelation.mat';
+% filename_results = 'GaussianNoCorrelation.mat';
 % filename_results = 'GaussianNegativeCorrelation_0pt3.mat';
-% filename_results = 'GaussianNegativeCorrelation_0pt6.mat';
+filename_results = 'GaussianNegativeCorrelation_0pt6.mat';
 
 
 
@@ -47,14 +47,14 @@ save_distributions = 0; % save distribution at certain time?
 index_day_distribution = 40; % what time? (days)
 
 % want to read in distribution from a file?
-readin_init_joint = 0;
+readin_init_joint = 1;
 
 %  manually change over :(
 % filename_distributions_load = 'GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat';
 % filename_distributions_load = 'GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat';
-filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
+% filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
 % filename_distributions_load = 'GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
+filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
@@ -101,7 +101,7 @@ params.E=Eps;
 params.D=Del;
 
 % time is in days; 200 days is about 6-7 months; 250 is 8-9 months
-t_start = 0; t_end = 200;
+t_start = 0; t_end = 300;
 dt = 1;
 t_span = t_start:dt:t_end;
 params.t_span = t_span;
@@ -144,7 +144,7 @@ else
 
     % target values are:
     % -0.6 -0.3 0.3 0.6
-    intended_corr_coeff = 0;
+    intended_corr_coeff = -0.6;
     params.intended_corr_coeff = intended_corr_coeff;
 
     % intended mean values
@@ -162,20 +162,19 @@ else
     params.intended_variance_delta = intended_variance_delta;
 
     % initial guess: correlation coefficients
-    % -0.9, -0.6, 0, 0.45, 0.375 corresponding to
+    % -0.9, -0.6, 0, 0.45, 0.8 corresponding to
     % -0.6, -0.3, 0, 0.3, 0.6
     
+    set_corr_coeff = -0.9;
     % 'set' means what you put into the pdf function!
-    set_corr_coeff = 0;
-    % set_corr_coeff = set_corr_coeff;
 
     % initial guess: corresponding mean eps in S:
     % 0.62, 0.49, 0.51, 0.44, 0.495 
-    set_mean_eps_S = 0.51;
+    set_mean_eps_S = 0.62;
 
     % initial guess: corresponding mean delta in S:
     % 1.0, 0.9, 0.85, 0.72, 0.7
-    set_mean_delta_S = 0.85;
+    set_mean_delta_S = 1;
     
     % these are fixed values included in pdf
     set_variance_eps = 1;

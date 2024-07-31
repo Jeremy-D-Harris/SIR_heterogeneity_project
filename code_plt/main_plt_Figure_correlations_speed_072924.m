@@ -7,7 +7,7 @@
 
 clear all; close all; clc;
 
-save_fig_ans =0;
+save_fig_ans = 0;
 % save figure:
 % 0 = no, 1 = yes
 
@@ -28,7 +28,7 @@ colors_rgb = grad1;
 file_location = '../data/';
 
 
-% (1) positive
+%% (1) positive
 this_infile = 'GaussianPositiveCorrelation_0pt6.mat';
 load(strcat(file_location,this_infile));
 % infile_results = 'Gaussian_lowvariance_update072924.mat';
@@ -39,7 +39,7 @@ R0_collect(1) = results.Rt_traj(1);
 total_incidence_collect(:,1) = results.total_incidence;
 
 
-% (2) positive
+%% (2) positive
 this_infile = 'GaussianPositiveCorrelation_0pt3.mat';
 load(strcat(file_location,this_infile));
 
@@ -48,8 +48,8 @@ R0_collect(2) = results.Rt_traj(1);
 total_incidence_collect(:,2) = results.total_incidence;
 
 
-% (3) independent
-this_infile = 'Gaussian_update072924.mat';
+%% (3) independent
+this_infile = 'GaussianNoCorrelation.mat';
 load(strcat(file_location,this_infile));
 
 % should update?
@@ -58,7 +58,7 @@ R0_collect(3) = results.Rt_traj(1);
 total_incidence_collect(:,3) = results.total_incidence;
 
 
-% (4) negative
+%% (4) negative
 this_infile = 'GaussianNegativeCorrelation_0pt3.mat';
 load(strcat(file_location,this_infile));
 
@@ -67,7 +67,7 @@ R0_collect(4) = results.Rt_traj(1);
 total_incidence_collect(:,4) = results.total_incidence;
 
 
-% (5) negative
+%% (5) negative
 this_infile = 'GaussianNegativeCorrelation_0pt6.mat';
 load(strcat(file_location,this_infile));
 
@@ -98,7 +98,7 @@ for count = 1:5
     this_h(count) =plot(params.t_span,total_incidence_collect(:,count),'Color',colors_rgb(2*count-1,:),'LineWidth',2.5); hold on;
 end
 
-axis([0 200 0 0.025]);
+axis([0 300 0 0.025]);
 xlabel('Time (days)'); ylabel({'Incident Infections, $\eta(t)$'},'Interpreter','Latex');
 f1=gca;
 f1.LineWidth = 1;
