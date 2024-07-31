@@ -7,7 +7,7 @@
 
 clear all; close all; clc;
 
-save_fig_ans = 1;
+save_fig_ans =0;
 % save figure:
 % 0 = no, 1 = yes
 
@@ -82,7 +82,7 @@ corrcoef_vary = -1:0.05:1;
 variance_eps_S = 0.49;
 variance_delta_S = 0.34;
 
-R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*variance_eps_S*variance_delta_S);
+R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*sqrt(variance_eps_S)*sqrt(variance_delta_S));
 
 
 
@@ -98,7 +98,7 @@ for count = 1:5
     this_h(count) =plot(params.t_span,total_incidence_collect(:,count),'Color',colors_rgb(2*count-1,:),'LineWidth',2.5); hold on;
 end
 
-axis([0 200 0 0.02]);
+axis([0 200 0 0.025]);
 xlabel('Time (days)'); ylabel({'Incident Infections, $\eta(t)$'},'Interpreter','Latex');
 f1=gca;
 f1.LineWidth = 1;
@@ -112,11 +112,11 @@ txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
 box on
 
-legend_char1 = strcat('$\rho = \,$',num2str(round(corr_coef(1),2)));
-legend_char2 = strcat('$\rho = \,$',num2str(round(corr_coef(2),2)));
-legend_char3 = strcat('$\rho = \,$',num2str(round(corr_coef(3),2)));
-legend_char4 = strcat('$\rho = \,$',num2str(round(corr_coef(4),2)));
-legend_char5 = strcat('$\rho = \,$',num2str(round(corr_coef(5),2)));
+legend_char1 = strcat('$\rho = \,$',num2str(corr_coef(1),'%0.1f'));
+legend_char2 = strcat('$\rho = \,$',num2str(corr_coef(2),'%0.1f'));
+legend_char3 = strcat('$\rho = \,$',num2str(corr_coef(3),'%0.1f'));
+legend_char4 = strcat('$\rho = \,$',num2str(corr_coef(4),'%0.1f'));
+legend_char5 = strcat('$\rho = \,$',num2str(corr_coef(5),'%0.1f'));
 %legend_char4 = 'Classic SIR';
 
 legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4,legend_char5}, 'Interpreter','Latex','FontSize',16, 'Location','Northeast');
@@ -140,7 +140,8 @@ for count = 1:5
 
 end
 
-axis([-1 1 1.5 2.5]);
+axis([-0.65 0.65 1.5 2.5]);
+xticks([-0.6 -0.3 0 0.3 0.6]);
 xlabel({'Correlation Coefficient, $\rho$'},'Interpreter','Latex');
 ylabel({'Basic Reproduction Number, $\mathcal R_0$'},'Interpreter','Latex');
 
