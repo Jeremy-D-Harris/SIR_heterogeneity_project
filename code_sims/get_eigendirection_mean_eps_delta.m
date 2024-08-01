@@ -17,9 +17,9 @@ mean_delta_I = params.mean_delta_I;
 S = N; I = 0; R = 0; %at t = 0
 
 
-dSdt = [-bet*mean_eps_S*mean_delta_I*I,-bet*mean_eps_S*mean_delta_I*S,0];
+dSdt = [-bet*mean_eps_S*mean_delta_I*I/N,-bet*mean_eps_S*mean_delta_I*S/N,0];
 
-dIdt = [bet*mean_eps_S*mean_delta_I*I,bet*mean_eps_S*mean_delta_I*S - gam,0];
+dIdt = [bet*mean_eps_S*mean_delta_I*I/N,bet*mean_eps_S*mean_delta_I*S/N - gam,0];
 
 dRdt = [0,gam,0];
 

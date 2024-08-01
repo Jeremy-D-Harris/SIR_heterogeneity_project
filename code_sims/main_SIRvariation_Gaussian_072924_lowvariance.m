@@ -34,12 +34,12 @@ save_additional_results = 1;
 % save distributions during exponential growth
 % want to plot distributions at certain time?
 want_to_plt_distributions = 1;
-save_distributions = 0; % save distribution at certain time?
+save_distributions = 1; % save distribution at certain time?
 index_day_distribution = 50; % what time? (days)
 
 % want to read in distribution from a file?
 readin_init_joint = 0;
-% filename_distributions_load = 'GaussianIndependent_joint_expgrowth.mat';
+filename_distributions_load = 'GaussianIndependent_joint_expgrowth.mat';
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
@@ -579,10 +579,10 @@ if want_to_plt_distributions
 
         folder_location = './sim_results/';
 
-        save(strcat(folder_location,filename_distributions_save),'data');
+        save(strcat(folder_location,filename_distributions_load),'data');
 
         fprintf('Saved Distribution to File: \n');
-        fprintf(strcat(filename_distributions_save,'\n\n'));
+        fprintf(strcat(filename_distributions_load,'\n\n'));
 
     else
 

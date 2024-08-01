@@ -12,7 +12,7 @@ shape_eps = params.shape_eps;
 S = y(1); I = y(2); R = y(3); mean_eps = y(4);
 
 % incident infections
-incident_infections = bet*I*mean_eps*S;
+incident_infections = bet*I*mean_eps*S/N;
 
 % recovery
 recovery = gam*I;

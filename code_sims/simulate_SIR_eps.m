@@ -10,6 +10,7 @@ function dydt = simulate_SIR_eps(t,y,params)
 bet = params.bet;
 gam = params.gam;
 eps_values = params.eps;
+N = params.N;
 % D = params.D;
 
 m = length(eps_values);
@@ -21,7 +22,7 @@ I_eps_values(1,:) = y((m+1):(2*m));
 R_eps_values(1,:) = y((2*m+1):(3*m));
 
 % force of infection
-incident_infections = bet*sum(I_eps_values)*eps_values.*S_eps_values;
+incident_infections = bet*sum(I_eps_values)*eps_values.*S_eps_values/N;
 
 % recovery
 recovery = gam.*I_eps_values;

@@ -11,6 +11,7 @@ bet=params.bet;
 gam = params.gam;
 E = params.E; % epsilon array
 D = params.D; % delta array
+N = params.N;
 
 m = length(E);
 n = length(D);
@@ -27,7 +28,7 @@ R_eps_delta_array = reshape(R_eps_delta_values,m,n);
 
 
 % incident infections
-incident_infections = bet*sum(sum(D.*I_eps_delta_array)).*E.*S_eps_delta_array;
+incident_infections = bet*sum(sum(D.*I_eps_delta_array)).*E.*S_eps_delta_array/N;
 
 % recovery
 recovery = gam.*I_eps_delta_array;

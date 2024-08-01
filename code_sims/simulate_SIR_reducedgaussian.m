@@ -7,12 +7,13 @@ function dydt = simulate_SIR_reducedgaussian(t,y,params)
 % parameters to local variables
 bet= params.bet; 
 gam = params.gam;
+N = params.N;
 init_variance_eps = params.variance_eps_S;
 
 S = y(1); I = y(2); R = y(3); mean_eps = y(4);
 
 % incident infections
-incident_infections = bet*I*mean_eps*S;
+incident_infections = bet*I*mean_eps*S/N;
 
 % recovery
 recovery = gam*I;

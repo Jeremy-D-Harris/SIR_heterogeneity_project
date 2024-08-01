@@ -15,7 +15,7 @@ for count=1:length(params.t_span)
     S = y(count,1);
 
     % transmissions: eps_bar(t) = S(t)^1/k for gamma 
-    T = bet*S^(1+1/shape_eps);
+    T = bet*S^(1+1/shape_eps)/N;
 
     % transitions
     Sigma = -gam;

@@ -4,7 +4,7 @@
 
 clear all; close all; clc;
 
-save_fig_ans = 1;
+save_fig_ans = 0;
 % save figure:
 % 0 = no, 1 = yes
 

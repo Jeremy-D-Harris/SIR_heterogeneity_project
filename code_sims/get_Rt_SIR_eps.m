@@ -7,6 +7,7 @@ function Rt_calc = get_Rt_SIR_eps(params,y)
 % parameters to local variables
 bet = params.bet;
 gam = params.gam;
+N = params.N;
 
 
 for count=1:length(params.t_span)
@@ -18,7 +19,7 @@ for count=1:length(params.t_span)
 
 
     % transmissions
-    T = bet*this_mean_epsilon_S*this_S_traj;
+    T = bet*this_mean_epsilon_S*this_S_traj/N;
 
     % transitions
     Sigma = -gam;

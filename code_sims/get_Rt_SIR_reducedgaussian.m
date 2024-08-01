@@ -19,7 +19,7 @@ for count=1:length(params.t_span)
     mean_eps_S = 2*init_variance_eps*(log(S)+init_mean_eps^2/2/init_variance_eps-log(N));
 
     % transmissions: eps_bar(t) = S(t)^1/k for gamma 
-    T = bet*S*mean_eps_S;
+    T = bet*S*mean_eps_S/N;
 
     % transitions
     Sigma = -gam;

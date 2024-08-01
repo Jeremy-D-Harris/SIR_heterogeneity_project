@@ -7,6 +7,7 @@ function Rt_calc = get_Rt_SIR_classic(params,y)
 % parameters to local variables
 bet = params.bet;
 gam = params.gam;
+N = params.N;
 
 for count=1:length(params.t_span)
 
@@ -14,7 +15,7 @@ for count=1:length(params.t_span)
     S = y(count,1);
 
     % transmissions
-    T = bet*S;
+    T = bet*S/N;
 
     % transitions
     Sigma = -gam;
