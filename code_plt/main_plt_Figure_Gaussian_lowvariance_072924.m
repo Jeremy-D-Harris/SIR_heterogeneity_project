@@ -28,7 +28,7 @@ file_location = '../data/';
 
 
 % results from simulations
-infile_results = 'Gaussian_lowvariance_update072924.mat';
+infile_results = 'GaussianNoCorrelation_lowvariance.mat';
 load(strcat(file_location,infile_results));
 
 fprintf('Plotting Results of Gaussian Distribution... \n');
@@ -37,7 +37,7 @@ fprintf('Plotting Results of Gaussian Distribution... \n');
 % f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
 f1 = figure(1); set(f1, 'Position', [100 500 1200 700]);
 
-ind_time_pt = 50;
+ind_time_pt = 40;
 
 % panel A: incident infections
 subplot(2,3,1);
