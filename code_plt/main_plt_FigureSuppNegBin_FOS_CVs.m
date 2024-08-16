@@ -5,11 +5,11 @@
 
 clear all; close all; clc;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 
-figure_name = 'SuppFigure_Gaussian_FOS_CVs';
+figure_name = 'SuppFigure_NegBin_FOS_CVs';
 
 % light blue, medium blue, dark blue, gray, black
 colors_rgb = [133,192,249; 74,112,188.5; 15,32,128; 166 166 166 ; 0,0,0]/255;
@@ -22,7 +22,7 @@ this_t_end_plt = 200;
 % need to load all three cases first:
 file_location = '../data/';
 
-for count = 1:3
+for count = 1:2
 
     if count==1
         % (1) positive correlations
@@ -36,10 +36,10 @@ for count = 1:3
         load(strcat(file_location,infile_positivecorrelations));
 
 
-    else
-        % (3) negative correlations
-        infile_negativecorrelations = 'GaussianNegativeCorrelation_0pt6_matchR0.mat';
-        load(strcat(file_location,infile_negativecorrelations));
+    % else
+    %     % (3) negative correlations
+    %     infile_negativecorrelations = 'GaussianNegativeCorrelation_0pt6_matchR0.mat';
+    %     load(strcat(file_location,infile_negativecorrelations));
 
     end
 
@@ -85,7 +85,7 @@ end
 f1 = figure(1); set(f1, 'Position', [100 500 1200 350]);
 
 %%
-for count = 1:3
+for count = 1:2
 
 
     %% FOS
@@ -101,7 +101,7 @@ for count = 1:3
     f1.FontName = 'Times';
 
 
-    if count==3
+    if count==2
 
 
         txt = {'A'};
@@ -115,12 +115,12 @@ for count = 1:3
 
         legend_char1 = 'SIR';
         legend_char2 = 'Variation in Susceptibility';
-        legend_char5 = 'Negative Correlation, $\rho < 0$';
+        % legend_char5 = 'Negative Correlation, $\rho < 0$';
         legend_char4 = 'No Correlation, $\rho = 0$';
         legend_char3 = 'Positive Correlation, $\rho > 0$';
 
 
-        legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.147 0.725 0.1 0.2],'FontSize',10);
+        legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4}, 'Interpreter','Latex','Location',[0.146 0.725 0.1 0.2],'FontSize',10);
 
 
     end
