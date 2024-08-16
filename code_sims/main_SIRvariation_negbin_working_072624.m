@@ -200,7 +200,7 @@ params.eps_perturb = eps_perturb;
 params.mu_eps_S = init_mu_eps_S;
 params.mu_delta_I = init_mu_delta_I;
 
-eigen_direction_SIR = get_eigendirection_SIRdelta_eps(params);
+eigen_direction_SIR = get_eigendirection_mean_eps_delta(params);
 
 S_init = N - eps_perturb*abs(eigen_direction_SIR(1));
 I_init = eps_perturb*abs(eigen_direction_SIR(2));
