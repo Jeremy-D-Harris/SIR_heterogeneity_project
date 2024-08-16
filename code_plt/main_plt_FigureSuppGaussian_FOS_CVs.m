@@ -1,0 +1,183 @@
+% simulate SIR model with transmissibility & susceptibility variation
+% discretized version with correlation
+
+%%
+
+clear all; close all; clc;
+
+save_fig_ans = 0;
+% save figure:
+% 0 = no, 1 = yes
+
+figure_name = 'SuppFigure_Gaussian_FOS_CVs';
+
+% light blue, medium blue, dark blue, gray, black
+colors_rgb = [133,192,249; 74,112,188.5; 15,32,128; 166 166 166 ; 0,0,0]/255;
+% define ending time:  
+this_t_end_plt = 300;
+
+
+%%
+% need to load all three cases first:
+file_location = '../data/';
+
+for count = 1:2
+    
+        
+    if count==1
+        
+        % (1) positive
+        infile_positivecorrelations = 'dataPosCinverseHighVar.mat';
+        load(strcat(file_location,infile_positivecorrelations));
+        
+        
+        
+    elseif count==2
+        
+        % (2) independent
+        infile_independent = 'dataIndinverseHighVar.mat';
+        load(strcat(file_location,infile_independent));
+
+    end
+
+        
+        
+end
+    
+    
+
+%% Plotting
+f1 = figure(1); set(f1, 'Position', [100 500 1200 350]);
+
+% f1 = figure(1); set(f1, 'Position', [100 500 1200 350]);
+
+%%
+for count = 1:3
+    
+    
+    %% FOS
+    subplot(1,3,1);
+    this_h(count+2) = plot(t_shift_plt(count,:), cumulative_infections(count,:),'Color',colors_rgb(count,:),'LineWidth',2.5); hold on;
+    axis([0 this_t_end_plt 0 1]);
+    xlabel('Time (days)'); %ylabel('Cumulative Infections');
+    ylabel({'Cumulative Infections, $\int_0^t I(s) \, ds$ '},'Interpreter','Latex');
+    f1=gca;
+    f1.LineWidth = 1;
+    f1.FontSize = 16;
+    f1.FontWeight = 'normal';
+    f1.FontName = 'Times';
+    
+    
+    if count==3
+        
+        
+        txt = {'A'};
+        text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
+        
+        this_h(1) = plot(t_shift_plt(2,:), data.FOS_SIR_traj,'Color',colors_rgb(4,:),'LineWidth',2.5); hold on;
+        this_h(2) =plot(t_shift_plt(2,:),  FOSed_traj_susvaronly,'--','Color',colors_rgb(5,:),'LineWidth',2.5); hold on;
+        yticks(0:0.2:1);
+        set(f1,'yticklabel',[{'0'},{'0.2'},{'0.4'},{'0.6'},{'0.8'},{'1.0'}]);
+        %         set(f1,'xticklabel',{[]},'yticklabel',[{'0'},{''},{'0.2'},{''},{'0.4'},{''},{'0.6'},{''},{'0.8'},{''},{'1.0'}]);
+        
+        legend_char1 = 'Classic SIR';
+        legend_char2 = 'Variation in Susceptibility';
+        legend_char5 = 'Negative Correlation, $\rho < 0$';
+        legend_char4 = 'No Correlation, $\rho = 0$';
+        legend_char3 = 'Positive Correlation, $\rho > 0$';
+        
+        
+        legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.226 0.155 0.1 0.2],'FontSize',10);
+        
+        
+    end
+    
+    %% CV Susceptibility
+    subplot(1,3,2);
+    
+    this_p(count) = plot(t_shift_plt(count,:),Svar(:,count)./(mu_epsilon_S_traj(:,count).^2), 'Color', colors_rgb(count,:), 'LineWidth',2);hold on;
+    
+    axis([0 this_t_end_plt 0 1]);
+    xlabel({'Time (days)'},'Interpreter','Latex'); 
+    ylabel({'Coefficient of Variation (Squared)'},'Interpreter','Latex');
+    title('Susceptibility');
+    
+    f1=gca;
+    f1.LineWidth = 1;
+    f1.FontSize = 16;
+    f1.FontWeight = 'normal';
+    f1.FontName = 'Times';
+    
+    
+    if count==3
+        this_p(4) = plot(t_shift_plt(2,:),Svar_susvaronly./(mu_epsilon_S_traj_susvaronly.^2),'--','Color',colors_rgb(5,:),'LineWidth',2);
+        txt = {'B'};
+        text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
+        box on
+        
+        
+%         legend_char1 = 'Positive Correlation, $\rho > 0$';
+%         legend_char2 = 'No Correlation, $\rho = 0$';
+%         legend_char3 = 'Negative Correlation, $\rho < 0$';
+%         legend_char4 = 'Variation in Susceptibility';
+%         
+%         legend(this_p,{legend_char1,legend_char2,legend_char3,legend_char4}, 'Interpreter','Latex','Location','NorthWest','FontSize',10);
+        
+        
+    
+        
+    end
+    
+    
+    %% CV Transmissibility
+    subplot(1,3,3);
+    
+    
+    this_q(count) = plot(t_shift_plt(count,:),Ivar(:,count)./(mu_delta_I_traj(:,count).^2), 'Color', colors_rgb(count,:), 'LineWidth',2);hold on;
+    
+    axis([0 this_t_end_plt 0 1]);
+    xlabel({'Time (days)'},'Interpreter','Latex'); 
+    ylabel({'Coefficient of Variation (Squared)'},'Interpreter','Latex');
+    title('Transmissibility');
+    
+    f1=gca;
+    f1.LineWidth = 1;
+    f1.FontSize = 16;
+    f1.FontWeight = 'normal';
+    f1.FontName = 'Times';
+    
+    
+    if count==3
+        txt = {'C'};
+        text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
+        box on
+        
+        
+%         legend_char1 = 'Positive Correlation, $\rho > 0$';
+%         legend_char2 = 'No Correlation, $\rho = 0$';
+%         legend_char3 = 'Negative Correlation, $\rho < 0$';
+%         
+%         legend(this_q,{legend_char1,legend_char2,legend_char3}, 'Interpreter','Latex','Location','NorthWest','FontSize',10);
+        
+        
+    
+        
+    end
+    %
+    
+    
+end
+
+
+if save_fig_ans==1
+    
+    figures_location = './figures/';
+    saveas(f1,strcat(figures_location,figure_name),'epsc');
+    
+    fprintf('Figure saved:\n'); % want to be close to 25 days in
+    fprintf(strcat(figure_name,'\n\n'));
+    
+    fprintf('Location:\n'); % want to be close to 25 days in
+    fprintf(strcat(figures_location,'\n\n'));
+    
+end
