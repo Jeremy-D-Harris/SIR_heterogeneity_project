@@ -1,49 +1,47 @@
 # SIR_heterogeneity_project
-## Infections are not all alike: the effect of covariation between individual susceptibility and transmissibility on epidemic dynamics
+## Infections are not alike: the effects of covariation between individual susceptibility and transmissibility on epidemic dynamics
 Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 
- -- updated 02/01/24 by JDH --
+ -- updated 08/17/24 by JDH --
 
-**Code for:** "Infections are not alike: the effect of covariation between individual-level susceptibility and transmissibility on population-level epidemic dynamics." This repository contains all the MATLAB codes for running SIR models with heterogeneity in susceptibility and transmissibility using the following distributions: <br>
-    (1) uncorrelated Gamma distributions with means at 1; <br>
-    (2) Truncated Gaussian distributions to include correlations between transmission and susceptibility; <br>
-    (3) Negative binomial distribution with postive correlations.
-
+**Code for:** "Infections are not alike: the effect of covariation between individual-level susceptibility and transmissibility on population-level epidemic dynamics." This repository contains all the MATLAB codes for both running & plotting results from SIR models. Variation is included in susceptibility ($\varepsilon$) and transmissibility ($\delta$) and compared to mdoels with variation in susceptilibility alone and the classic SIR model, i.e., homogeneous susceptibility and transmissibility. We implement the following initial joint distributions in $\varepsilon$ and $\delta$: <br>
+<ol>
+<li> Uncorrelated Gamma distributions;  </li> 
+<li>  Low- & high-variance Gaussian distributions;  </li> 
+<li>  Negative binomial distribution ([1]).  </li>
+</ol>
 A preprint of the manuscript can be found on BioRxiv: [DOI]()
 
 **Instructions:**
-MATLAB was used to run model simulations and plot figures. Once the Github repository is downloaded, navigate to the subdirectory 'Code_plt' to plot the figures in the manuscript by running the appropriate function. Simulation data can be reproduced by navigating to 'Code_sims' and running appropriate functions. <u>See below for subfolder descriptions.</u>
+MATLAB was used to run model simulations and plot figures. <br>
+
+  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'Code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: 'tabulate_names_figures.docx' in the top (or main) directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'Code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the top (or main) directory.</p> <br>
+
+<u>See below for subfolder descriptions.</u>
 
 **Folder descriptions:** <br>
 
-- **code_sims:** All code to simulate models; subfolders organized by model with models (1)-(3) described above: <br>
-  (1)  `codes_from_Esther_10102021'  <br>
-  (2) `code_nb_clean_Dec2022': Jeremy cleaned up negative binomial codes
+- **code_plt:** All code to plot model simulation results. <br>
+
+  <p>Read in the data from 'data/' and plot the figures in the manuscript. At the top of the file, there is an option to save the figure or not. If 'save_ans'= 1, the figures will save to the folder 'figures,' a subdirectory of the top (or main) directory. These are the figures included in the manuscript.</p>
 
 
+- **code_sims:** All code to simulate models. <br>
 
+  <p> At the top of the file, there is an option to save the simulation data or not. If 'save_ans'= 1, the data will save to the folder 'data,' a subdirectory of the top (or main) directory. To run and save additional results, set each of the options equal to 1. <br> 
 
-Within each of these folders, the main files simulate the model and have several user options at the top of the scripts. For instance, in the the first choice for the user is to save the simulation data using the variable 'save_ans': 0 means don't save and 1 means save. The output file will be saved to the directory 'Code_plt/sim_data/' so that the corresponding figure can be produced.
-
-- **code_plt:**
-Read in the data from 'data/' and plot the figures in the manuscript. If 'save_ans'= 1, the figures will save to the folder 'figures.' From here, they are uploaded to the Overleaf document.
+  <u>To simulate (nonzero) correlations, first set the options, 'save_distributions' = 1 and 'readin_init_joint = 0.'</u> This will produce a transient at the beginning of the epidemic dynamics and save the distributions at time point 'index_day_distribution' = 40. <u>Next, run the simulation again, but now setting the options, 'save_distributions' = 0 and 'readin_init_joint = 1.'</u> This will remove the transient, because the distributions have already converged to the eigendistributions of the epidemic dynamics.</p>
 
 - **Manuscript_forCodeReview:** not yet!
 
 
-- **Data** contains simulation data from Esther to plot current results organized by the distribution used: <br>
-
-    (1) 'GammaInd': uncorrelated Gamma distributions <br>
-    (2) 'GaussianInd': uncorrelated Gaussian distributions <br>
-    (3) 'forward' (`speeds' not matched): correlated Gamma, Gaussian, Negative Binomial distributions  <br>
-    (4) 'gaussianTruncatedVar1': (truncated) correlated Gaussian distributions <br>
-    (5) 'negbinomial': positive correlated negative binomial (`speeds' matched) <br><br>
+- **Data** Simulation data is saved here and used to plot current results. <br>
 
 
-- **figures_movies** create movies that show the evolution of the joint distributions of susceptibility and transmissibility in both susceptible and infected populations
+- **figures_movies** not yet! create movies that show the evolution of the joint distributions of susceptibility and transmissibility in both susceptible and infected populations
+
 
 **References:** <br>
-[1]  <br>
-[2]  <br>
-[3] <br>
-[4]  <br>
+[1]  Famoye, F. (2010). On the bivariate negative binomial regression model. Journal of Applied Statistics, 37(6), 969-981. <br><br>
+
+
