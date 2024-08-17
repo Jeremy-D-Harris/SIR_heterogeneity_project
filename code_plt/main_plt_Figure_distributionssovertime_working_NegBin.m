@@ -20,7 +20,7 @@ frac_spacing = 0.74;
 frac_scaling = 0.21;
 
 % var_eps = fliplr([0.66 0.74 0.82 0.895]); %linspace(0.999,0.49,201);
-epsilon_level = fliplr([0.48 0.6 0.80 0.999]);
+epsilon_level = fliplr([0.51 0.65 0.80 0.999]);
 
 txt_eps1 = ['$\bar{\varepsilon}(t_0) = ', num2str(epsilon_level(1),'%1.2f'), '$ '];
 txt_eps2 = ['$\bar{\varepsilon}(t_1) = ', num2str(epsilon_level(2),'%1.2f'), '$ '];
@@ -184,9 +184,9 @@ for kk=1:length(epsilon_level)
     elseif kk==2
         text(0.1,0.7,txt_eps2,'Interpreter','Latex','Units','normalized','FontSize',11);
     elseif kk==3
-        text(0.1,0.48,txt_eps3,'Interpreter','Latex','Units','normalized','FontSize',11);
+        text(0.1,0.53,txt_eps3,'Interpreter','Latex','Units','normalized','FontSize',11);
     else
-        text(0.1,0.34,txt_eps4,'Interpreter','Latex','Units','normalized','FontSize',11);
+        text(0.1,0.38,txt_eps4,'Interpreter','Latex','Units','normalized','FontSize',11);
     end
 end
 
@@ -218,7 +218,7 @@ for count=1:2
     this_q=plot(t_span,effective_transmission_rate_traj(:,3-count),'Color',colors_rgb(3-count,:),'LineWidth',2.5); hold on;
     this_q.Color(4)=0.85;
 end
-axis([0 this_t_end_plt 0.16 0.245]);
+axis([0 this_t_end_plt 0.15 0.25]);
 xlabel('Time (days)'); ylabel({'Effective'; 'Transmission'; 'Rate, $\beta\,\bar{\delta}_I(t)$'},'interpreter','latex');
 f1=gca;
 f1.LineWidth = 1;
@@ -230,13 +230,13 @@ set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
 old_pos = get(f1, 'Position');
 
 
-% yticks([0.20 0.25 0.30 0.35 0.40]);
-% set(f1,'yticklabel',[{'0.20'},{'0.25'},{'0.30'},{'0.35'},{''}]);
-% box('off');
+yticks([0.15 0.20 0.25]);
+set(f1,'yticklabel',[{'0.15'},{'0.20'},{''}]);
+box('off');
 
-% txt = {'0.40'};
-% text(-0.135,0.935,txt,'Units','normalized',...
-%     'FontSize',14,'FontWeight','normal','FontName', 'Times');
+txt = {'0.25'};
+text(-0.135,0.935,txt,'Units','normalized',...
+    'FontSize',14,'FontWeight','normal','FontName', 'Times');
 
 
 %% handle marginals: plot at different epsilon levels
@@ -463,7 +463,7 @@ end
 %%
 sp1 = subplot(4,3,1);
 delete(sp1);
-legend_char1 = 'Classic SIR';
+legend_char1 = 'SIR';
 legend_char2 = 'No Correlation, $\rho = 0$';
 legend_char3 = 'Positive Correlation, $\rho > 0$';
 

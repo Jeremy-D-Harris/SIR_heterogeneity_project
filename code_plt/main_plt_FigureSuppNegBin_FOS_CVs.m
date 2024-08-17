@@ -26,13 +26,13 @@ for count = 1:2
 
     if count==1
         % (1) positive correlations
-        infile_independent = 'GaussianPositiveCorrelation_0pt6_matchR0.mat';
+        infile_independent = 'NegBin_PositiveCorrelation.mat';
         load(strcat(file_location,infile_independent));
 
 
     elseif count==2
         % (2) no correlations
-        infile_positivecorrelations = 'GaussianNoCorrelation.mat';
+        infile_positivecorrelations = 'NegBin_NoCorrelation.mat';
         load(strcat(file_location,infile_positivecorrelations));
 
 
@@ -130,7 +130,7 @@ for count = 1:2
 
     this_p(count) = plot(t_span,CV2_eps_S_traj(:,count), 'Color', colors_rgb(count,:), 'LineWidth',2.5);hold on;
 
-    axis([0 this_t_end_plt 0 1]);
+    axis([0 this_t_end_plt 0 2.5]);
     xlabel({'Time (days)'},'Interpreter','Latex');
     ylabel({'Coefficient of Variation (Squared)'},'Interpreter','Latex');
     title('Susceptibility');
@@ -160,7 +160,7 @@ for count = 1:2
 
     this_q(count) = plot(t_span,CV2_delta_I_traj(:,count), 'Color', colors_rgb(count,:), 'LineWidth',2.5);hold on;
 
-    axis([0 this_t_end_plt 0 1]);
+    axis([0 this_t_end_plt 0 25]);
     xlabel({'Time (days)'},'Interpreter','Latex');
     ylabel({'Coefficient of Variation (Squared)'},'Interpreter','Latex');
     title('Transmissibility');

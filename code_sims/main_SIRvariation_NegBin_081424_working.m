@@ -9,7 +9,7 @@ clear all; close all; clc;
 
 
 %% want to save results?
-save_results = 0;
+save_results = 1;
 % 0: don't save
 % 1: save
 
@@ -66,7 +66,7 @@ gam=1/10; % assume mean infectious period is 10 days
 % dispersion parameters: kappa->infty = Poisson; kappa=1 = Geometric;
 % kappa<1 overdispersed
 kappa1 = 50;  % dispersion (susceptibility)
-kappa2 = 0.5; % dispersion (transmissibility)
+kappa2 = 0.05; % dispersion (transmissibility)
 
 % For the Singapore outbreak (Lloyd-smith, 2005), the maximum-likelihood estimate k̂ is 0.16
 % (90% confidence interval 0.11–0.64), indicating highly overdispersed
@@ -78,7 +78,7 @@ rho_S = 0;
 intended_R0 = 2;
 % match basic reproduction numbers: R0=2
 bet=intended_R0*gam; %no correlations, rho=0
-% bet = intended_R0*gam*.5; % positive correlations, rho=0.6
+% bet = intended_R0*gam*.274; % positive correlations, rho=0.6
 
 % want means of marginals to be 1
 mean_joint = 1;
@@ -87,7 +87,7 @@ mean_joint = 1;
 N = 1; % population size
 
 % discrete mesh
-n = 20; % number transmissibility classes
+n = 120; % number transmissibility classes
 m = n; % susceptibilty classes
 
 

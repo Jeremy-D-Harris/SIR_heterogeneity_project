@@ -5,13 +5,13 @@ c1 = ((1-theta1)/(1-theta1*exp(-1)))^(1/m1);
 c2 = ((1-theta2)/(1-theta2*exp(-1)))^(1/m2);
 
 dim = size(X);
-len = dim(1);
-width = dim(2);
+m = dim(1);
+n = dim(2);
 
 pdf = zeros(dim);
 
-for xx = 1:len
-    for yy = 1:width
+for xx = 1:m
+    for yy = 1:n
         
 
         term1 = gamma(m1^(-1)+X(xx,yy))/(gamma(X(xx,yy)+1)*gamma(m1^(-1)));
