@@ -32,7 +32,7 @@ MATLAB was used to run model simulations and plot figures. <br>
 
   <u>To simulate (nonzero) correlations, first set the options, 'save_distributions' = 1 and 'readin_init_joint = 0.'</u> This will produce a transient at the beginning of the epidemic dynamics and save the distributions at time point 'index_day_distribution' = 40. <u>Next, run the simulation again, but now setting the options, 'save_distributions' = 0 and 'readin_init_joint = 1.'</u> This will remove the transient, because the distributions have already converged to the eigendistributions of the epidemic dynamics.</p>
 
-- **Manuscript_forCodeReview:** not yet!
+- **Manuscript_forCodeReview:** Downloaded August 18, 2024
 
 
 - **Data** Simulation data is saved here and used to plot current results. <br>

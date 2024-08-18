@@ -8,6 +8,7 @@ function Rt_calc = get_Rt_SIR_reducedgamma(params,y)
 bet = params.bet;
 gam = params.gam;
 shape_eps = params.shape_eps;
+N = params.N;
 
 for count=1:length(params.t_span)
 

@@ -8,6 +8,7 @@ function dydt = simulate_SIR_reducedgamma(t,y,params)
 bet= params.bet; 
 gam = params.gam;
 shape_eps = params.shape_eps;
+N = params.N;
 
 S = y(1); I = y(2); R = y(3); mean_eps = y(4);
 
