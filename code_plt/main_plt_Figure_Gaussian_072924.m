@@ -28,7 +28,7 @@ file_location = '../data/';
 
 
 % results from simulations
-infile_results = 'Gaussian_update072924.mat';
+infile_results = 'GaussianNoCorrelation.mat';
 load(strcat(file_location,infile_results));
 
 fprintf('Plotting Results of Gaussian Distribution... \n');
