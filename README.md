@@ -1,8 +1,6 @@
-# SIR_heterogeneity_project
-## Infections are not alike: the effects of covariation between individual susceptibility and transmissibility on epidemic dynamics
+# Code for: Infections are not alike: the effects of covariation between individual susceptibility and transmissibility on epidemic dynamics
 Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 
- -- updated 08/17/24 by JDH --
 
 **Code for:** "Infections are not alike: the effect of covariation between individual-level susceptibility and transmissibility on population-level epidemic dynamics." This repository contains all the MATLAB codes for both running & plotting results from SIR models. Variation is included in susceptibility ($\varepsilon$) and transmissibility ($\delta$) and compared to mdoels with variation in susceptilibility alone and the classic SIR model, i.e., homogeneous susceptibility and transmissibility. We implement the following initial joint distributions in $\varepsilon$ and $\delta$: <br>
 <ol>
@@ -13,13 +11,16 @@ Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 A preprint of the manuscript can be found on BioRxiv: [DOI]()
 
 **Instructions:**
-MATLAB was used to run model simulations and plot figures. <br>
+MATLAB 2023b and 2024a was used to run model simulations and plot figures. We also use the Statistics and Machine Learning Toolbox for setting bivariate distributions. <br>
 
-  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'Code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: 'tabulate_names_figures.docx' in the top (or main) directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'Code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the top (or main) directory.</p> <br>
+  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: 'tabulate_names_figures.docx' in the top (or main) directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the top (or main) directory.</p> <br>
 
 <u>See below for subfolder descriptions.</u>
 
 **Folder descriptions:** <br>
+
+- **Manuscript_forCodeReview:** Downloaded August 18, 2024
+
 
 - **code_plt:** All code to plot model simulation results. <br>
 
@@ -32,13 +33,11 @@ MATLAB was used to run model simulations and plot figures. <br>
 
   <u>To simulate (nonzero) correlations, first set the options, 'save_distributions' = 1 and 'readin_init_joint = 0.'</u> This will produce a transient at the beginning of the epidemic dynamics and save the distributions at time point 'index_day_distribution' = 40. <u>Next, run the simulation again, but now setting the options, 'save_distributions' = 0 and 'readin_init_joint = 1.'</u> This will remove the transient, because the distributions have already converged to the eigendistributions of the epidemic dynamics.</p>
 
-- **Manuscript_forCodeReview:** Downloaded August 18, 2024
+
+- **data:** Simulation data is saved here and used to plot current results. <br>
 
 
-- **Data** Simulation data is saved here and used to plot current results. <br>
-
-
-- **figures_movies** not yet! create movies that show the evolution of the joint distributions of susceptibility and transmissibility in both susceptible and infected populations
+- **figures:** Figure files are saved to this folder.
 
 
 **References:** <br>
