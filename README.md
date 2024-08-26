@@ -8,7 +8,7 @@ Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 <li>  Low- & high-variance Gaussian distributions;  </li> 
 <li>  Negative binomial distribution ([1]).  </li>
 </ol>
-A preprint of the manuscript can be found on BioRxiv: [DOI]() <br>
+A preprint of the manuscript can be found on BioRxiv: [DOI]() <br><br> 
 
 **Instructions:** <br>
 MATLAB 2023b and 2024a was used to run model simulations and plot figures. We also use the Statistics and Machine Learning Toolbox for setting bivariate distributions. <br>
