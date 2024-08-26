@@ -1,4 +1,4 @@
-# Code for: Infections are not alike: the effects of covariation between individual susceptibility and transmissibility on epidemic dynamics
+# Code for: "Infections are not alike: the effects of covariation between individual susceptibility and transmissibility on epidemic dynamics"
 Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 
 
@@ -8,9 +8,9 @@ Jeremy D Harris, Esther Gallmeier, Stephen J. Beckett, Joshua S. Weitz (2024)
 <li>  Low- & high-variance Gaussian distributions;  </li> 
 <li>  Negative binomial distribution ([1]).  </li>
 </ol>
-A preprint of the manuscript can be found on BioRxiv: [DOI]()
+A preprint of the manuscript can be found on BioRxiv: [DOI]() <br>
 
-**Instructions:**
+**Instructions:** <br>
 MATLAB 2023b and 2024a was used to run model simulations and plot figures. We also use the Statistics and Machine Learning Toolbox for setting bivariate distributions. <br>
 
   <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: 'tabulate_names_figures.docx' in the top (or main) directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the top (or main) directory.</p> <br>
