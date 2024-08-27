@@ -13,14 +13,19 @@ save_results = 0;
 % 0: don't save
 % 1: save
 
-% have to manually select :(
+% want to read in distribution from a file?
+readin_init_joint = 1;
+% 0: recreate
+% 1: open from file
 
-% filename_results = 'GaussianPositiveCorrelation_0pt6.mat';
-% filename_results = 'GaussianPositiveCorrelation_0pt3.mat';
-% filename_results = 'GaussianNoCorrelation.mat';
-% filename_results = 'GaussianNegativeCorrelation_0pt3.mat';
-filename_results = 'GaussianNegativeCorrelation_0pt6.mat';
+%save main results
+filename_results_list = ["GaussianPositiveCorrelation_0pt6.mat", "GaussianPositiveCorrelation_0pt3.mat", "GaussianNoCorrelation.mat", "GaussianNegativeCorrelation_0pt3.mat", "GaussianNegativeCorrelation_0pt6.mat"];
+%save exp results to set initial condition distributions via
+%eigendistributions
+filename_distributions_load_list = ["GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat", "GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat", "Gaussian_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat"];
 
+for AA = 1:length(filename_results_list)
+disp(strcat("working on list index ", num2str(AA)))
 
 
 %% options
@@ -45,16 +50,6 @@ save_additional_results = 0;
 want_to_plt_distributions = 1;
 save_distributions = 0; % save distribution at certain time?
 index_day_distribution = 40; % what time? (days)
-
-% want to read in distribution from a file?
-readin_init_joint = 1;
-
-%  manually change over :(
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat';
-% filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat';
-filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
@@ -114,11 +109,8 @@ if readin_init_joint
     % read in joint distribution from file, e.g., during exponential growth
 
     folder_location = './sim_results/';
-    % filename_distributions_load = 'Gaussian_joint_expgrowth_nocorr.mat';
-    % filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
-
-    load(strcat(folder_location,filename_distributions_load));
+    load(strcat(folder_location,filename_distributions_load_list(AA)));
     init_joint_S  = data.init_joint_S;
     init_joint_I  = data.init_joint_I;
     init_joint_R  = data.init_joint_R;
@@ -128,7 +120,7 @@ if readin_init_joint
 
     fprintf('Initial Distributions: \n');
     fprintf('Load From: \n');
-    fprintf(strcat(filename_distributions_load,'\n\n'));
+    fprintf(strcat(filename_distributions_load_list(AA),'\n\n'));
 
 else
 
@@ -249,7 +241,7 @@ params.corr_coeff = calc_corr_coeff;
 params.mean_delta_I = mean_delta_I;
 params.mean_eps_I = mean_eps_I;
 params.variance_eps_S = variance_eps_S;
-params.variance_delta_S = variance_delta_S
+params.variance_delta_S = variance_delta_S;
 params.covariance_S = covariance_S;
 params.init_joint_S = init_joint_S;
 params.init_joint_I = init_joint_I;
@@ -290,7 +282,7 @@ init_conds = [reshape(init_values_S_eps_delta, m*n,1); reshape(init_values_I_eps
 % sum(sum((init_S_eps_delta_values + init_I_eps_delta_values + init_R_eps_delta_values),2));
 
 % plot initial distributions - if you want!
-if 1
+if want_to_plt_distributions == 1
 
     plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
 
@@ -657,10 +649,10 @@ if want_to_plt_distributions
 
         folder_location = './sim_results/';
 
-        save(strcat(folder_location,filename_distributions_load),'data');
+        save(strcat(folder_location,filename_distributions_load_list(AA)),'data');
 
         fprintf('Saved Distribution to File: \n');
-        fprintf(strcat(filename_distributions_load,'\n\n'));
+        fprintf(strcat(filename_distributions_load_list(AA),'\n\n'));
 
     else
 
@@ -736,18 +728,18 @@ if save_results==1
     if save_additional_results
 
         % + classic + variation susceptibility + reduced model
-        save(strcat(folder_location,filename_results),'params','results','results_classic','results_var_susc','results_reduced');
+        save(strcat(folder_location,filename_results_list(AA)),'params','results','results_classic','results_var_susc','results_reduced');
 
 
     else
 
         % save variation in eps & delta, exclusively
-        save(strcat(folder_location,filename_results),'params','results');
+        save(strcat(folder_location,filename_results_list(AA)),'params','results');
 
     end
 
     fprintf('Saved Results to File: \n');
-    fprintf(strcat(filename_results,'\n'));
+    fprintf(strcat(filename_results_list(AA),'\n'));
 
 else
 
@@ -755,6 +747,6 @@ else
 
 end
 
-
+end
 
 
