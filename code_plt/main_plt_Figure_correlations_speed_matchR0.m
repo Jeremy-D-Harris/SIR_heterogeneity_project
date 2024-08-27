@@ -138,7 +138,7 @@ f1.FontName = 'Times';
 txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-legend_char1 = 'SIR Model';
+legend_char1 = 'SIR';
 legend_char2 = 'Positive Correlation, $\rho > 0$';
 legend_char3 = 'No Correlation, $\rho = 0$';
 legend_char4 = 'Negative Correlation, $\rho < 0$';

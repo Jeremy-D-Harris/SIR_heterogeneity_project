@@ -73,7 +73,7 @@ f1.FontName = 'Times';
 txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-legend_char1 = 'SIR Model';
+legend_char1 = 'SIR';
 legend_char2 = 'Variation ($\varepsilon$,\,$\delta$)';
 legend_char3 = 'Variation ($\varepsilon$)';
 legend_char4 = 'Reduced Model';
@@ -105,7 +105,7 @@ f1.FontName = 'Times';
 txt = {'B'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-% legend_char1 = 'SIR model';
+% legend_char1 = 'SIR';
 legend_char1 = 'Variation Susceptibility ($\varepsilon$,\,$\delta$)';
 legend_char2 = 'Variation Susceptibility ($\varepsilon$)';
 legend_char3 = 'Reduced Model';

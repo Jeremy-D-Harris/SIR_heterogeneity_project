@@ -124,7 +124,7 @@ f1.FontName = 'Times';
 txt = {'B'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-legend_char1 = 'SIR Model';
+legend_char1 = 'SIR';
 legend_char2 = 'Eigendistribution';
 legend_char3 = 'Index Case: $\varepsilon = 1$, $\delta = 2$';
 legend_char4 = 'Index Case: $\varepsilon = 1$, $\delta = 0.5$';

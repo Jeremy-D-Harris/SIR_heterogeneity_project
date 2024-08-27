@@ -456,7 +456,7 @@ end
 %%
 sp1 = subplot(4,3,1);
 delete(sp1);
-legend_char1 = 'Classic SIR';
+legend_char1 = 'SIR';
 legend_char2 = 'Positive Correlation, $\rho > 0$';
 legend_char3 = 'No Correlation, $\rho = 0$';
 legend_char4 = 'Negative Correlation, $\rho < 0$';
