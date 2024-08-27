@@ -24,6 +24,13 @@ filename_results_list = ["GaussianPositiveCorrelation_0pt6.mat", "GaussianPositi
 %eigendistributions
 filename_distributions_load_list = ["GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat", "GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat", "Gaussian_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat"];
 
+intended_corr_coeff_list = [-0.6 -0.3 0 0.3 0.6]; %intended target distributions for corr coeff
+set_corr_coeff_list = [-0.9, -0.6, 0, 0.45, 0.8]; %initial test distributions to match from for corr coeff
+intended_variance_eps_list =[0.44 0.48 0.5 0.48 0.48];
+intended_variance_delta_list =[0.27 0.32 0.35 0.33 0.3];
+set_mean_eps_S_list = [0.62, 0.49, 0.51, 0.44, 0.495];
+set_mean_delta_S_list = [1.0, 0.9, 0.85, 0.72, 0.7];
+
 for AA = 1:length(filename_results_list)
 disp(strcat("working on list index ", num2str(AA)))
 
@@ -136,7 +143,7 @@ else
 
     % target values are:
     % -0.6 -0.3 0.3 0.6
-    intended_corr_coeff = -0.6;
+    intended_corr_coeff = intended_corr_coeff_list(AA);
     params.intended_corr_coeff = intended_corr_coeff;
 
     % intended mean values
@@ -147,8 +154,8 @@ else
     params.intended_mean_delta = intended_mean_delta;
 
     % intended variance values: fixed across all simulations
-    intended_variance_eps = 0.49;
-    intended_variance_delta = 0.34;
+    intended_variance_eps = intended_variance_eps_list(AA); %0.49;
+    intended_variance_delta = intended_variance_delta_list(AA);% 0.34;
 
     params.intended_variance_eps = intended_variance_eps;
     params.intended_variance_delta = intended_variance_delta;
@@ -157,16 +164,16 @@ else
     % -0.9, -0.6, 0, 0.45, 0.8 corresponding to
     % -0.6, -0.3, 0, 0.3, 0.6
     
-    set_corr_coeff = -0.9;
+    set_corr_coeff = set_corr_coeff_list(AA);%-0.9;
     % 'set' means what you put into the pdf function!
 
     % initial guess: corresponding mean eps in S:
     % 0.62, 0.49, 0.51, 0.44, 0.495 
-    set_mean_eps_S = 0.62;
+    set_mean_eps_S = set_mean_eps_S_list(AA);% 0.62;
 
     % initial guess: corresponding mean delta in S:
     % 1.0, 0.9, 0.85, 0.72, 0.7
-    set_mean_delta_S = 1;
+    set_mean_delta_S = set_mean_delta_S_list(AA);% 1;
     
     % these are fixed values included in pdf
     set_variance_eps = 1;
