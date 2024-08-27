@@ -93,7 +93,7 @@ for count = 1:2
     this_h(count+2) = plot(t_span, cum_infections(:,count),'Color',colors_rgb(count,:),'LineWidth',2.5); hold on;
     axis([0 this_t_end_plt 0 1]);
     xlabel('Time (days)'); %ylabel('Cumulative Infections');
-    ylabel({'Cumulative Infections, $\int_0^t I(s) \, ds$ '},'Interpreter','Latex');
+    ylabel({'Cumulative Infections, $\int_0^t \eta(s) \, ds$ '},'Interpreter','Latex');
     f1=gca;
     f1.LineWidth = 1;
     f1.FontSize = 16;
