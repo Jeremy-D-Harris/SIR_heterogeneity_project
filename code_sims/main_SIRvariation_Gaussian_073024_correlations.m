@@ -9,7 +9,7 @@ clear all; close all; clc;
 
 
 %% want to save results?
-save_results = 0;
+save_results = 1;
 % 0: don't save
 % 1: save
 
@@ -41,15 +41,15 @@ run_classic_SIR = 1;
 % save_results_classic = 1;
 
 % run & save variation in susceptibility SIR?
-run_variation_susc_SIR = 0;
+run_variation_susc_SIR = 1;
 % save_results_variation_susc = 1;
 
 % run & save reduced model?
-run_reduced_SIR = 0;
+run_reduced_SIR = 1;
 % save_results_reduced = 1;
 
 % note! - could get a save error, if didn't run but wanted to save
-save_additional_results = 0;
+save_additional_results = 1;
 
 
 % save distributions during exponential growth

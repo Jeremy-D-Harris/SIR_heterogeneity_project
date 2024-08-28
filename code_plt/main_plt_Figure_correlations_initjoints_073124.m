@@ -86,7 +86,7 @@ for count = 1:5
     this_joint_S(:,:) = init_joint_S(count,:,:);
     this_joint_I(:,:) = init_joint_I(count,:,:);
 
-    plt_initdistributions(params.eps,params.eps,this_joint_S,this_joint_I, corr_coeff(count), count)
+    plt_initdistributions(params.eps,params.del,this_joint_S,this_joint_I, corr_coeff(count), count)
 
 
 end
