@@ -26,8 +26,8 @@ filename_distributions_load_list = ["GaussianPositiveCorrelation_0pt6_joint_expg
 
 intended_corr_coeff_list = [-0.6 -0.3 0 0.3 0.6]; %intended target distributions for corr coeff
 set_corr_coeff_list = [-0.9, -0.6, 0, 0.45, 0.8]; %initial test distributions to match from for corr coeff
-intended_variance_eps_list =[0.44 0.48 0.5 0.48 0.48];
-intended_variance_delta_list =[0.27 0.32 0.35 0.33 0.3];
+intended_variance_eps_list =0.49; % target variance - may not be exact via matching.
+intended_variance_delta_list =0.34;% target variance - may not be exact via matching.
 set_mean_eps_S_list = [0.62, 0.49, 0.51, 0.44, 0.495];
 set_mean_delta_S_list = [1.0, 0.9, 0.85, 0.72, 0.7];
 
