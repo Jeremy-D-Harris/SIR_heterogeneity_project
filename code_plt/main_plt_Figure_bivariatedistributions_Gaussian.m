@@ -159,7 +159,7 @@ f1.FontName = 'Times';
 
 txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
-
+axis square
 
 legend_char1 = 'SIR';
 legend_char2 = 'Positive Correlation, $\rho > 0$';
@@ -193,6 +193,7 @@ end
 
 axis([0 this_t_end_plt 0.2 1.1]);
 xlabel('Time (days)'); ylabel({'Mean' ; 'Susceptiblity, $\bar{\varepsilon}(t)$'},'interpreter','latex');
+axis square
 f1=gca;
 f1.LineWidth = 1;
 f1.FontSize = 14;
@@ -221,6 +222,7 @@ for count=1:3
 end
 axis([0 this_t_end_plt 0.1 0.3]);
 xlabel('Time (days)'); ylabel({'Effective'; 'Transmission'; 'Rate, $\beta\,\bar{\delta}_I(t)$'},'interpreter','latex');
+axis square
 f1=gca;
 f1.LineWidth = 1;
 f1.FontSize = 14;
@@ -256,7 +258,8 @@ for count=1:3
         climsS = [0 0.5];
         climsI = [0 0.04];
         %clims = empty;
-        imagesc(eps_plt,del_plt,squeeze(arrayS(count,count_eps,:,:)), 'AlphaData', .9);
+        imagesc(eps_plt,del_plt,squeeze(arrayS(count,count_eps,:,:))./sum(sum(squeeze(arrayS(count,count_eps,:,:)))), 'AlphaData', .9);
+        axis square
         hold on
         xline(epsilon_level(count_eps),LineWidth=2,LineStyle=':')
         %yline(effective_transmission_rate_traj(associatedtimings(count,count_eps)+1),LineWidth=2,LineStyle='--')
