@@ -6,11 +6,11 @@ clear all; close all; clc;
 
 colors_rgb = [133,192,249; 74,112,188.5; 15,32,128; 166 166 166]/255;
 
-save_fig_ans = 1;
+save_fig_ans = 0;
 % save figure:
 % 0 = no, 1 = yes
 
-figure_name = 'Figure_correlations_distributionsovertime_matchR0_Gaussian_bivariate';
+figure_name = 'Figure_correlations_distributionsovertime_matchR0_Gaussian_bivariate_091624';
 
 
 %% loading
@@ -130,35 +130,30 @@ end
 
 f1 = figure(1);
 %set(f1, 'Position', [100 100 1000 1000]);
-set(f1, 'Position', [100 100 1500 1000]);
+set(f1, 'Position', [100 100 1000 1500]);
+t = tiledlayout(4,3);
 
-sp1=subplot(4,3,1);
+sp1=nexttile;
+%subplot(4,3,1);
 
 this_p(1) = plot(t_span, total_incidence_classic,'Color',[0.65, 0.65 0.65],'LineWidth',2.5); hold on;
 
 
 for count = 1:3
-
     this_p(5-count) = plot(t_span, total_incidence(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
-
 end
 
-for count = 1:3
-
-    plot(t_span(ind_t_int(4-count))*ones(1,10),linspace(10^-7,total_incidence(ind_t_int(4-count),4-count),10),'--','Color',colors_rgb(4-count,:),'LineWidth',1); hold on;
-
-end
 
 axis([0 t_end_plt 0 0.025]);
 xlabel('Time (days)'); ylabel({'Incident infections, $\eta(t)$'},'Interpreter','Latex');
 f1=gca;
 f1.LineWidth = 1;
-f1.FontSize = 16;
+f1.FontSize = 14;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
 txt = {'A'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
+text(0.025,1.05,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
 axis square
 
 legend_char1 = 'SIR';
@@ -166,30 +161,29 @@ legend_char2 = 'Positive Correlation, $\rho > 0$';
 legend_char3 = 'No Correlation, $\rho = 0$';
 legend_char4 = 'Negative Correlation, $\rho < 0$';
 
-legend(this_p,{legend_char1,legend_char2, legend_char3,legend_char4},'Interpreter','Latex', 'Position', [0.225 0.855 0.095 0.06],'FontSize',9);
+legend(this_p,{legend_char1,legend_char2, legend_char3,legend_char4},'Interpreter','Latex', 'Location', 'northoutside','FontSize',9);
 
-%set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
-%old_pos = get(f1, 'Position');
+
 %% plot mean susceptibility
-f1=subplot(4,3,2);
+f1=nexttile;%subplot(4,3,2);
 for count=1:3
     this_q=plot(t_span, mean_eps_S_traj(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
     this_q.Color(4)=0.85;
 end
 
+ylim([0.2 1.1])
 for kk=1:length(epsilon_level)
     plot(t_span,epsilon_level(kk)*ones(size(t_span)),'k','LineWidth',1); hold on;
     if kk==1
-        text(0.1,0.94,txt_eps1,'Interpreter','Latex','Units','normalized','FontSize',11);
+        text(0.01,epsilon_level(kk)-0.07,txt_eps1,'Interpreter','Latex','Units','normalized','FontSize',11);
     elseif kk==2
-        text(0.1,0.7,txt_eps2,'Interpreter','Latex','Units','normalized','FontSize',11);
+        text(0.01,epsilon_level(kk)-0.08,txt_eps2,'Interpreter','Latex','Units','normalized','FontSize',11);
     elseif kk==3
-        text(0.1,0.53,txt_eps3,'Interpreter','Latex','Units','normalized','FontSize',11);
+        text(0.01,epsilon_level(kk)-0.09,txt_eps3,'Interpreter','Latex','Units','normalized','FontSize',11);
     else
-        text(0.1,0.38,txt_eps4,'Interpreter','Latex','Units','normalized','FontSize',11);
+        text(0.01,epsilon_level(kk)-0.07,txt_eps4,'Interpreter','Latex','Units','normalized','FontSize',11);
     end
 end
-
 
 axis([0 this_t_end_plt 0.2 1.1]);
 xlabel('Time (days)'); ylabel({'Mean' ; 'Susceptiblity, $\bar{\varepsilon}(t)$'},'interpreter','latex');
@@ -201,21 +195,14 @@ f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
 txt = {'B'};
-text(0.025,1.045,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
-%set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
-%old_pos = get(f1, 'Position');
+text(0.025,1.05,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
 
 yticks([0.2 0.4 0.6 0.8 1]);
-set(f1,'xticklabel',{[]},'yticklabel',[{''},{'0.4'},{'0.6'},{'0.8'},{'1.0'}]);
-box('off');
-
-txt = {'0.2'};
-text(-0.11,0.06,txt,'Units','normalized',...
-    'FontSize',14,'FontWeight','normal','FontName', 'Times');
+box('on');
 
 
 %% plot effective transmission rate
-f1=subplot(4,3,3);
+f1=nexttile;%subplot(4,3,3);
 for count=1:3
     this_q=plot(t_span,effective_transmission_rate_traj(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
     this_q.Color(4)=0.85;
@@ -231,14 +218,14 @@ f1.FontName = 'Times';
 
 %ylim([0.1 0.3])
 txt = {'C'};
-text(0.025,1.045,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
+text(0.025,1.05,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
 %set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
 %old_pos = get(f1, 'Position');
 
 
 yticks([0.1 0.2 0.3]);
 set(f1,'yticklabel',[{'0.1'},{'0.2'},{'0.3'}]);
-box('off');
+box('on');
 
 %txt = {'0.25'};
 %text(-0.135,0.935,txt,'Units','normalized',...
@@ -250,7 +237,8 @@ for count=1:3
     for count_eps = 1:length(epsilon_level) %find epsilon levels
 
         this_epsilon_level = epsilon_level(count_eps);
-        subplot(4,3,3+hh)
+        %subplot(4,3,3+hh)
+        nexttile
        
         eps_plt = params.eps;
         del_plt = params.del;
@@ -271,17 +259,28 @@ for count=1:3
         set(gca,'YDir','normal');
         % colorbar;
         xlim([0 3]); ylim([0 3]);
-        xlabel('susceptibility $\varepsilon$','interpreter','latex');
+        xlabel('susceptibility $\varepsilon$','interpreter','latex','FontSize',14,'FontName','Times','FontWeight','normal');
 
         if hh==1
-            ylabel({'$\rho>0$';'transmissibility $\delta$'},'interpreter','latex');
+            ylabel({'$\rho>0$';'transmissibility $\delta$'},'interpreter','latex','FontSize',14,'FontName','Times','FontWeight','normal');
         elseif hh == 4
-            ylabel({'$\rho=0$';'transmissibility $\delta$'},'interpreter','latex');
+            ylabel({'$\rho=0$';'transmissibility $\delta$'},'interpreter','latex','FontSize',14,'FontName','Times','FontWeight','normal');
         elseif hh == 7
-            ylabel({'$\rho<0$';'transmissibility $\delta$'},'interpreter','latex');
+            ylabel({'$\rho<0$';'transmissibility $\delta$'},'interpreter','latex','FontSize',14,'FontName','Times','FontWeight','normal');
         else
-            ylabel({'transmissibility $\delta$'},'interpreter','latex');
+            ylabel({'transmissibility $\delta$'},'interpreter','latex','FontSize',14,'FontName','Times','FontWeight','normal');
         end
+        f1=gca;
+        f1.LineWidth = 1;
+        f1.FontSize = 14;
+        f1.FontWeight = 'normal';
+        f1.FontName = 'Times';
+
+        if hh == 1
+            txt = {'D'};
+            text(0.025,1.1,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
+        end
+
  hh = hh+1;
 
     end
@@ -290,7 +289,8 @@ end
 % sp1 = subplot(3,4,1);
 % delete(sp1);
 
-
+t.TileSpacing = 'compact';
+t.Padding = 'compact';
 
 
 
