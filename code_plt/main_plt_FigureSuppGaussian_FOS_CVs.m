@@ -9,7 +9,7 @@ save_fig_ans = 0;
 % save figure:
 % 0 = no, 1 = yes
 
-figure_name = 'SuppFigure_Gaussian_FOS_CVs';
+figure_name = 'SuppFigure_Gaussian_FOS_CVs_091624';
 
 % light blue, medium blue, dark blue, gray, black
 colors_rgb = [133,192,249; 74,112,188.5; 15,32,128; 166 166 166 ; 0,0,0]/255;
@@ -90,13 +90,14 @@ for count = 1:3
 
     %% FOS
     subplot(1,3,1);
-    this_h(count+2) = plot(t_span, cum_infections(:,count),'Color',colors_rgb(count,:),'LineWidth',2.5); hold on;
+    %this_h(count+2) = plot(t_span, cum_infections(:,count),'Color',colors_rgb(count,:),'LineWidth',2.5); hold on;
+    this_h(count+1) = plot(t_span, cum_infections(:,count),'Color',colors_rgb(count,:),'LineWidth',2.5); hold on;
     axis([0 this_t_end_plt 0 1]);
     xlabel('Time (days)'); %ylabel('Cumulative Infections');
     ylabel({'Cumulative Infections, $\int_0^t \eta(s) \, ds$ '},'Interpreter','Latex');
     f1=gca;
     f1.LineWidth = 1;
-    f1.FontSize = 16;
+    f1.FontSize = 14;
     f1.FontWeight = 'normal';
     f1.FontName = 'Times';
 
@@ -108,20 +109,23 @@ for count = 1:3
         text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
         this_h(1) = plot(t_span, cum_infections_classic,'Color',colors_rgb(4,:),'LineWidth',2.5); hold on;
-        this_h(2) =plot(t_span, cum_infections_var_susc,'--','Color',colors_rgb(5,:),'LineWidth',2.5); hold on;
+        %this_h(2) =plot(t_span, cum_infections_var_susc,'--','Color',colors_rgb(5,:),'LineWidth',2.5); hold on;
         yticks(0:0.2:1);
         set(f1,'yticklabel',[{'0'},{'0.2'},{'0.4'},{'0.6'},{'0.8'},{'1.0'}]);
         %         set(f1,'xticklabel',{[]},'yticklabel',[{'0'},{''},{'0.2'},{''},{'0.4'},{''},{'0.6'},{''},{'0.8'},{''},{'1.0'}]);
 
         legend_char1 = 'SIR';
-        legend_char2 = 'Variation in Susceptibility';
+        %legend_char2 = 'Variation in Susceptibility';
         legend_char5 = 'Negative Correlation, $\rho < 0$';
         legend_char4 = 'No Correlation, $\rho = 0$';
         legend_char3 = 'Positive Correlation, $\rho > 0$';
 
 
-        legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.147 0.725 0.1 0.2],'FontSize',10);
-
+        %legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.147 0.725 0.1 0.2],'FontSize',10);
+        %legend(this_h,{legend_char1,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.147 0.725 0.1 0.2],'FontSize',10);
+        lgd = legend(this_h,{legend_char1,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location','NorthWest','FontSize',10);
+        lgd.Position(1) = 0.13;
+        lgd.Position(2) = 0.72;
 
     end
 
@@ -137,20 +141,16 @@ for count = 1:3
 
     f1=gca;
     f1.LineWidth = 1;
-    f1.FontSize = 16;
+    f1.FontSize = 14;
     f1.FontWeight = 'normal';
     f1.FontName = 'Times';
 
 
     if count==2
-        this_p(4) = plot(t_span,CV2_eps_S_traj_var_susc,'--','Color',colors_rgb(5,:),'LineWidth',2.5);
+        %this_p(4) = plot(t_span,CV2_eps_S_traj_var_susc,'--','Color',colors_rgb(5,:),'LineWidth',2.5);
         txt = {'B'};
         text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
         box on
-
-
-
-
     end
 
 
@@ -167,7 +167,7 @@ for count = 1:3
 
     f1=gca;
     f1.LineWidth = 1;
-    f1.FontSize = 16;
+    f1.FontSize = 14;
     f1.FontWeight = 'normal';
     f1.FontName = 'Times';
 
@@ -176,14 +176,8 @@ for count = 1:3
         txt = {'C'};
         text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
         box on
-
-
-
-
     end
-    %
-
-
+    
 end
 
 

@@ -1,5 +1,3 @@
-% function void = main_plt_Figure_Gaussian_072924(void)
-
 % plot results SIR model with transmissibility & susceptibility variation
 
 
@@ -12,7 +10,7 @@ save_fig_ans = 0;
 % save figure:
 % 0 = no, 1 = yes
 
-figure_name = 'Figure5_Gaussian_indexsensitivity_stochastic_080124';
+figure_name = 'Figure5_Gaussian_indexsensitivity_stochastic_091624';
 
 % medium blue, black, grey, violet, green
 colors_rgb = [74,112,188.5; 0 0 0; 166 166 166; 169,90,161;0, 158, 115]/255;
@@ -57,11 +55,12 @@ fprintf('Plotting Results of Gaussian Distribution... \n');
 f1 = figure(1); set(f1, 'Position', [100 500 1000 850]);
 
 % ind_time_pt = 50;
-
+t = tiledlayout(2,2);
 
 
 %% panel A: Initial joint distribution
-subplot(2,2,1);
+nexttile
+%subplot(2,2,1);
 imagesc(params.eps,params.del,results.init_joint_S); hold on;
 plot(params.eps(ind_eps),params.del(ind_delta_I_2), '.', 'MarkerSize',40, 'Color',colors_rgb(2,:));
 plot(params.eps(ind_eps),params.del(ind_delta_I_0pt5), '.', 'MarkerSize',40, 'Color',colors_rgb(4,:)); hold on;
@@ -99,8 +98,8 @@ load(strcat(file_location,infile_results));
 
 total_incidence(:,4) = results.total_incidence/params.N;
 
-
-subplot(2,2,2);
+nexttile
+%subplot(2,2,2);
 % this_p(1) = plot(params.t_span, results_classic.total_incidence/params.N','Color',colors_rgb(3,:),'LineWidth',2.5); hold on;
 p(1) = plot(params.t_span, total_incidence(:,1),'Color',colors_rgb(3,:),'LineWidth',2.5); hold on;
 
@@ -154,7 +153,8 @@ load(append(file_location,"stochastic_output_31Jul2024125047.mat"))
 Outbreak_thresh = 50; %50 cases denotes an outbreak
 
 %% plot outbreak proportion, (more than threshold infections) 
-subplot(2,2,3);
+%subplot(2,2,3);
+nexttile
 
 Traj = length(stochSIR_sir.Final_Size);
 labels = ["SIR" "\rho=-0.6" "\rho=0" "\rho=0.6"];
@@ -168,6 +168,12 @@ b.CData(3,:) =  colors_rgb(5,:);
 b.CData(4,:) =  colors_rgb(1,:);
 txt = {'C'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+f1 = gca;
+f1.LineWidth = 1;
+f1.FontSize = 14;
+f1.FontWeight = 'normal';
+f1.FontName = 'Times';
+
 
 %calc 95% confidence intervals
 pest = outbreakproportion;
@@ -184,7 +190,7 @@ colorsbox = [[166 166 166]/255; colors_rgb(9,:); colors_rgb(5,:); colors_rgb(1,:
 outbreaklist = [stochSIR_sir.Final_Size; stochSIR_negcorr.Final_Size; stochSIR_uncorr.Final_Size; stochSIR_poscorr.Final_Size];
 outbreaklist(outbreaklist<=50) = NaN;
 outbreaklistproportion = outbreaklist/10000;
-ax = subplot(2,2,4);
+ax = nexttile(4);
 x = 1:4;
 offset = 0.2;
 hold(ax);
@@ -219,7 +225,11 @@ xticklabels(labels)
 
 txt = {'D'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
-
+f1 = gca;
+f1.LineWidth = 1;
+f1.FontSize = 14;
+f1.FontWeight = 'normal';
+f1.FontName = 'Times';
 
 %display statistics
 disp("median outbreak proportions (SIR,\rho=-0.6,\rho=0,\rho=0.6)")
@@ -229,8 +239,8 @@ quantile(outbreaklistproportion',[.025 .25 .50 .75 .975]) %quantiles for box and
 disp("iqr outbreak proportions (SIR,\rho=-0.6,\rho=0,\rho=0.6)")
 iqr(outbreaklistproportion')  %interquartile range
 
-
-
+t.TileSpacing = 'compact';
+t.Padding = 'compact';
 
 
 
