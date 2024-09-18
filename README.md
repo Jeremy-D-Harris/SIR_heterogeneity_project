@@ -4,7 +4,7 @@ Jeremy D Harris, Esther Gallmeier, Jonathan Dushoff, Stephen J. Beckett, Joshua 
 
 This repository contains all the MATLAB codes for both running & plotting results from SIR-like models incorporating both susceptibility and transmissibility variation. Variation is included in susceptibility ($\varepsilon$) and transmissibility ($\delta$) and compared to models with variation in susceptilibility alone and the standard SIR model, i.e., homogeneous susceptibility and transmissibility. We implement the following initial joint distributions in $\varepsilon$ and $\delta$: <br>
 <ol>
-<li> Uncorrelated Gamma distributions;  </li> 
+<li> Uncorrelated gamma distributions;  </li> 
 <li>  Low- & high-variance truncated Gaussian distributions.  </li> 
 </ol>
 A preprint of the manuscript can be found on medRxiv. Please cite our work as:
@@ -15,7 +15,7 @@ A preprint of the manuscript can be found on medRxiv. Please cite our work as:
 **Instructions:** <br>
 MATLAB 2023b and 2024a was used to run model simulations and plot figures. We also use the Statistics and Machine Learning Toolbox for setting bivariate distributions. <br>
 
-  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: ['tabulate_names_figures.docx'](https://github.com/Jeremy-D-Harris/SIR_heterogeneity_project/blob/codereviewfeedback/tabulate_names_figures.docx) in the main directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the main directory.</p> <br>
+  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: [tabulate_names_figures.docx](https://github.com/Jeremy-D-Harris/SIR_heterogeneity_project/blob/codereviewfeedback/tabulate_names_figures.docx) in the main directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the main directory.</p> <br>
 
 <u>See below for subfolder descriptions.</u>
 
