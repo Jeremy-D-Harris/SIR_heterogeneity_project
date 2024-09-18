@@ -16,7 +16,7 @@ A preprint of the manuscript can be found on medRxiv. Please cite our work as:
 **Instructions:** <br>
 MATLAB 2023b and 2024a was used to run model simulations and plot figures. We also use the Statistics and Machine Learning Toolbox for setting bivariate distributions. <br>
 
-  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: [tabulatefigures.md](https://github.com/Jeremy-D-Harris/SIR_heterogeneity_project/tabulatefigures.md) in the main directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulate_names_figures.docx'</em> in the main directory.</p> <br>
+  <p>First, downloaded the Github repository. <u>To plot the figures found in the manuscript</u>, navigate to the subdirectory 'code_plt.' The name of the MATLAB script file (*.m file)  can be found in the tabulation file: 'tabulatefigures.md' in the main directory. Open the appropriate script file in MATLAB. To reproduce the simulation data, navigate to the subdirectory 'code_sims' and run the appropriate function. See again, the tabulation file: <em>'tabulatefigures.md'</em> in the main directory.</p> <br>
 
 <u>See below for subfolder descriptions.</u>
 
