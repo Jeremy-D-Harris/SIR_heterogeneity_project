@@ -1,6 +1,4 @@
-% % plot bivaraite distributions over time
-
-%%
+%% plot bivaraite distributions over time
 
 clear all; close all; clc;
 
@@ -253,11 +251,8 @@ for count=1:3
         %yline(effective_transmission_rate_traj(associatedtimings(count,count_eps)+1),LineWidth=2,LineStyle='--')
         yline(mean_delta_S_traj(associatedtimings(count,count_eps)+1,count),LineWidth=2,LineStyle=':')
         title({strcat('$\bar{\varepsilon}(t)=$ ',num2str(this_epsilon_level))},'interpreter','latex');
-        % pcolor(eps,del,joint_S);
-        %axis xy;
         
         set(gca,'YDir','normal');
-        % colorbar;
         xlim([0 3]); ylim([0 3]);
         xlabel('susceptibility $\varepsilon$','interpreter','latex','FontSize',14,'FontName','Times','FontWeight','normal');
 
@@ -286,13 +281,8 @@ for count=1:3
     end
 end
 
-% sp1 = subplot(3,4,1);
-% delete(sp1);
-
 t.TileSpacing = 'compact';
 t.Padding = 'compact';
-
-
 
 
 %% save figure ?

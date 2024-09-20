@@ -1,7 +1,4 @@
-% function void = main_plt_Figure_Gamma_072824(void)
-
 % plot results SIR model with transmissibility & susceptibility variation
-
 
 %% set up
 % plot results from Gamma Distribution
@@ -22,10 +19,8 @@ this_t_end_plt = 200;
 
 epsilon_levels = [1.01, 0.9985];
 
-
 % load results from file
 file_location = '../data/';
-
 
 % results from simulations
 infile_results = 'Gamma_update072824.mat';
@@ -81,7 +76,6 @@ legend_char4 = 'Reduced Model';
 legend(this_p,{legend_char1,legend_char2, legend_char3, legend_char4}, 'Position', [0.245 0.84 0.09 0.07],'FontSize',10,'Interpreter','Latex');
 
 
-
 % panel B: CV^2 Susceptibility
 subplot(2,3,2);
 this_q(2) = plot(params.t_span, results.CV2_eps_S_traj,'Color',colors_rgb(1,:),'LineWidth',2.5);hold on;
@@ -131,11 +125,9 @@ f1.FontSize = 14;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-
 txt = {'C'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
- 
 legend_char1 = 'Variation Potential Transmissibility $(\varepsilon,\,\delta)$ '; 
 legend_char2 = 'Variation Effective Transmissibility $(\varepsilon,\,\delta)$, '; 
 legend_char3 = 'Reduced Model'; 
@@ -164,7 +156,6 @@ title('Initial Joint Distribution, $f_S(0,\varepsilon,\delta)$','interpreter','l
 
 txt = {'D'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
-
 
 % panel E: marginals for susceptibility
 subplot(2,3,5);

@@ -1,8 +1,6 @@
 % simulate SIR model with transmissibility & susceptibility variation
 % discretized version with correlation
 
-%%
-
 clear all; close all; clc;
 
 save_fig_ans = 0;
@@ -23,8 +21,6 @@ var_eps = linspace(0.999,0.49,201);
 ind_level = 40; %18
 epsilon_level = var_eps(ind_level);
 
-
-%%
 % need to load all three cases first:
 file_location = '../data/';
 
@@ -101,8 +97,6 @@ for count = 1:3
     
     marginal_transmissibility(count,:) = this_marginal_delta_I_traj;
 
-    
-
 end
 
 
@@ -116,15 +110,11 @@ this_p(1) = plot(t_span, total_incidence_classic,'Color',[0.65, 0.65 0.65],'Line
 
 
 for count = 1:3
-
     this_p(5-count) = plot(t_span, total_incidence(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
-
 end
 
 for count = 1:3
-
     plot(t_span(ind_t_int(4-count))*ones(1,10),linspace(10^-7,total_incidence(ind_t_int(4-count),4-count),10),'--','Color',colors_rgb(4-count,:),'LineWidth',1); hold on;
-
 end
 
 axis([0 t_end_plt 0 0.025]);
@@ -150,15 +140,11 @@ legend(this_p,{legend_char1,legend_char2, legend_char3,legend_char4},'Interprete
 % now plot mean susceptibility
 subplot(2,3,2);
 for count = 1:3
-
     this_q(4-count)=plot(t_span, mean_eps_S_traj(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
-
 end
 
 for count = 1:3
-
     plot(t_span(ind_t_int(4-count))*ones(1,10),linspace(0.5,mean_eps_S_traj(ind_t_int(4-count),4-count),10),'--','Color',colors_rgb(4-count,:),'LineWidth',1); hold on;
-
 end
 
 plot(t_span,epsilon_level*ones(size(t_span)),'k','LineWidth',1);
@@ -181,19 +167,8 @@ title('Susceptibility','FontWeight','normal');
 subplot(2,3,3);
 
 for count = 1:3
-
     this_r(4-count)=plot(t_span,effective_transmission_rate_traj(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
-    %     this_r(count).Color(4) = 0.8;
-
 end
-
-% for count = 1:3
-% 
-%     plot(t_span(ind_t_int(4-count))*ones(1,10),...
-%         linspace(0.1,effective_transmission_rate_traj(ind_t_int(4-count),4-count),10),'--','Color',colors_rgb(4-count,:),'LineWidth',1); hold on;
-%     plot(t_span,effective_transmission_rate_traj(ind_t_int(4-count),4-count)*ones(length(t_span)),'Color',colors_rgb(4-count,:),'LineWidth',1); hold on;
-% 
-% end
 
 axis([0 t_end_plt 0.1 0.3]);
 xlabel('Time (days)'); ylabel({'Effective Transmission Rate, $\beta\,\bar{\delta}_I(t)$'},'interpreter','latex');
@@ -213,14 +188,11 @@ title('Transmissibility','FontWeight','normal');
 % Susceptible population
 subplot(2,3,4);
 for count = 1:3
-
     this_s(4-count)=plot(t_span, S_traj(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
 end
 
 for count = 1:3
-
     plot(t_span(ind_t_int(4-count))*ones(1,10),linspace(0,S_traj(ind_t_int(4-count),4-count),10),'--','Color',colors_rgb(4-count,:),'LineWidth',1); hold on;
-
 end
 
 axis([0 t_end_plt 0.2 1]);
@@ -241,9 +213,7 @@ text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 subplot(2,3,5);
 
 for count = 1:3
-
     this_t(count)=plot(eps,marginal_susceptibility(count,:),'Color',colors_rgb(count,:),'LineWidth',2.5); hold on;
-
 end
 
 plot(epsilon_level,0,'.','Color',colors_rgb(1,:),'LineWidth',2,'MarkerSize',20);
@@ -270,10 +240,8 @@ text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 % now plot marginals for transmissibiilty
 subplot(2,3,6);
 for count = 1:3
-
     this_u(4-count)=plot(del,marginal_transmissibility(4-count,:),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
     plot(mean_delta_int(4-count),0,'.','Color',colors_rgb(4-count,:),'LineWidth',2,'MarkerSize',20);
-
 end
 
 axis([0 3 0 0.9]);
