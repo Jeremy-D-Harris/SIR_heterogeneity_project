@@ -1,5 +1,4 @@
-% plot results SIR model with transmissibility & susceptibility variation
-
+%% plot results SIR model with transmissibility & susceptibility variation
 
 %% set up
 % plot results from Gamma Distribution
@@ -21,9 +20,7 @@ this_t_end_plt = 200;
 % load results from file
 file_location = '../data/';
 
-
 % results from simulations
-% infile_results = 'GaussianNoCorrelation_N10000_delta2.mat';
 infile_results = 'GaussianNoCorrelation_N10000.mat';
 load(strcat(file_location,infile_results));
 
@@ -137,9 +134,7 @@ c2 = [133,192,249]/255; % light blue
 c1 = [15,32,128]/255; % dark blue
 
 depth = 9;
-[grad1,im]=colorGradient(c2,c1,depth);
-% [grad2,im]=colorGradient(c2,c3,depth);
-
+grad1=colorGradient(c2,c1,depth);
 colors_rgb = grad1;
 
 % %% load results from file

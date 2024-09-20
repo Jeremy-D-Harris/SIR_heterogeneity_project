@@ -4,7 +4,7 @@ function [colors] = colorGradient(col1,col2,N)
 
 %check N valid
 mustBeInteger(N) %N must be integer valued
-mustBeGreaterThanOrEqual(N,2) %N must produce output of at least two entries  - at minimum col1 and col2 with no interpolation
+mustBeGreaterThanOrEqual(N,2) %N colormust produce output of at least two entries  - at minimum col1 and col2 with no interpolation
 %check col1 and col2 are valid
 validatecolor(col1)
 validatecolor(col2)

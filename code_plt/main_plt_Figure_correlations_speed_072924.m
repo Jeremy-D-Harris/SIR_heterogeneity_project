@@ -1,6 +1,3 @@
-% function void = main_plt_Figure_correlations_speed(void)
-% function void = main_plt_Figure_correlations_speed_072924(void)
-
 % want to plot correlations vs speed & strength
 
 %%
@@ -18,8 +15,7 @@ c2 = [133,192,249]/255; % light blue
 c1 = [15,32,128]/255; % dark blue
 
 depth = 9;
-[grad1,im]=colorGradient(c2,c1,depth);
-% [grad2,im]=colorGradient(c2,c3,depth);
+grad1=colorGradient(c2,c1,depth);
 
 colors_rgb = grad1;
 
@@ -31,8 +27,6 @@ file_location = '../data/';
 %% (1) positive
 this_infile = 'GaussianPositiveCorrelation_0pt6.mat';
 load(strcat(file_location,this_infile));
-% infile_results = 'Gaussian_lowvariance_update072924.mat';
-% load(strcat(file_location,infile_results));
 
 corr_coef(1) = params.corr_coeff;
 R0_collect(1) = results.Rt_traj(1);
@@ -106,8 +100,6 @@ f1.FontSize = 16;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-
-
 txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
 box on
@@ -117,13 +109,8 @@ legend_char2 = strcat('$\rho = \,$',num2str(corr_coef(2),'%0.1f'));
 legend_char3 = strcat('$\rho = \,$',num2str(corr_coef(3),'%0.1f'));
 legend_char4 = strcat('$\rho = \,$',num2str(corr_coef(4),'%0.1f'));
 legend_char5 = strcat('$\rho = \,$',num2str(corr_coef(5),'%0.1f'));
-%legend_char4 = 'Classic SIR';
 
 legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4,legend_char5}, 'Interpreter','Latex','FontSize',16, 'Location','Northeast');
-
-% end
-
-
 
 
 %% Panel B

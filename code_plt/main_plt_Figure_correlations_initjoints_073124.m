@@ -1,8 +1,3 @@
-% function void = main_plt_Figure_correlations_initjoints_073124(void)
-
-% want to plot correlations vs speed & strength
-
-%%
 
 clear all; close all; clc;
 
@@ -17,9 +12,7 @@ c2 = [133,192,249]/255; % light blue
 c1 = [15,32,128]/255; % dark blue
 
 depth = 9;
-[grad1,im]=colorGradient(c2,c1,depth);
-% [grad2,im]=colorGradient(c2,c3,depth);
-
+grad1=colorGradient(c2,c1,depth);
 colors_rgb = grad1;
 
 
@@ -30,8 +23,6 @@ file_location = '../data/';
 %% (1) positive
 this_infile = 'GaussianPositiveCorrelation_0pt6.mat';
 load(strcat(file_location,this_infile));
-% infile_results = 'Gaussian_lowvariance_update072924.mat';
-% load(strcat(file_location,infile_results));
 
 init_joint_S(1,:,:) = params.init_joint_S;
 init_joint_I(1,:,:) = params.init_joint_I;
@@ -87,8 +78,6 @@ for count = 1:5
     this_joint_I(:,:) = init_joint_I(count,:,:);
 
     plt_initdistributions(params.eps,params.del,this_joint_S,this_joint_I, corr_coeff(count), count)
-
-
 end
 
 
@@ -107,6 +96,4 @@ if save_fig_ans==1
 else
 
     fprintf('Figure not saved...\n'); % want to be close to 25 days in
-
-
 end

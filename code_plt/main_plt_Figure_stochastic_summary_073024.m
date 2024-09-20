@@ -1,6 +1,4 @@
-% % plot stochastic simulation summary statistics
-
-%%
+%% plot stochastic simulation summary statistics
 
 clear all; close all; clc;
 
@@ -16,9 +14,7 @@ c2 = [133,192,249]/255; % light blue
 c1 = [15,32,128]/255; % dark blue
 
 depth = 9;
-[grad1,im]=colorGradient(c2,c1,depth);
-% [grad2,im]=colorGradient(c2,c3,depth);
-
+grad1=colorGradient(c2,c1,depth);
 colors_rgb = grad1;
 
 %% load results from file
