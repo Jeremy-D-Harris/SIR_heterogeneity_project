@@ -1,8 +1,7 @@
-% function void = main_SIRvariation_Gaussian_correlations(void)
-
 % simulate SIR model with transmissibility & susceptibility variation
 % using Gaussian distribution
 % vary correlation coefficient
+% match the basic reproduction number
 
 %%
 clear all; close all; clc;
@@ -13,13 +12,13 @@ save_results = 1;
 % 0: don't save
 % 1: save
 
-% have to manually select :(
-
-% filename_results = 'GaussianPositiveCorrelation_0pt6_matchR0.mat';
-% filename_results = 'GaussianNoCorrelation.mat';
-filename_results = 'GaussianNegativeCorrelation_0pt6_matchR0.mat';
-
-
+%names for results files
+filenamelist = ['GaussianPositiveCorrelation_0pt6_matchR0.mat' 'GaussianNoCorrelation.mat' 'GaussianNegativeCorrelation_0pt6_matchR0.mat'];
+% initial guess of beta for R0 to match
+% must change manually with parameter rho:
+% rho = -0.6, 0, 0.6
+% beta = 0.254, 0.2, 0.165
+betalist = [0.165, 0.2, 0.254];
 
 %% options
 % run & save Classic SIR?
@@ -46,15 +45,15 @@ index_day_distribution = 40; % what time? (days)
 
 % want to read in distribution from a file?
 readin_init_joint = 1;
+filename_distributionslist = ['GaussianPositiveCorrelation_0pt6_joint_expgrowth_matchR0.mat' 'Gaussian_joint_expgrowth.mat' 'GaussianNegativeCorrelation_0pt6_joint_expgrowth_matchR0.mat'];
 
-%  manually change over :(
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt6_joint_expgrowth_matchR0.mat';
-% filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
-filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth_matchR0.mat';
-
-%  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
 
+
+for aa = 1:length(filenamelist)
+    filename_results = filenamelist(aa);
+    filename_distributions_load = filename_distributionslist(aa); 
+    betachoice = betalist(aa);
 
 %% parameters
 % recovery rate
@@ -71,7 +70,7 @@ params.intended_R0 = intended_R0;
 % must change manually with parameter rho:
 % rho = -0.6, 0, 0.6
 % beta = 0.254, 0.2, 0.165
-bet = 0.254;
+bet = betachoice;
 
 % 'set' means your initial guess
 
@@ -120,16 +119,10 @@ if readin_init_joint
     % read in joint distribution from file, e.g., during exponential growth
 
     folder_location = './sim_results/';
-    % filename_distributions_load = 'Gaussian_joint_expgrowth_nocorr.mat';
-    % filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
-
-
     load(strcat(folder_location,filename_distributions_load));
     init_joint_S  = data.init_joint_S;
     init_joint_I  = data.init_joint_I;
     init_joint_R  = data.init_joint_R;
-
-    % index_day_distribution = data.index_day_distribution;
 
 
     fprintf('Initial Distributions: \n');
@@ -264,23 +257,14 @@ params.corr_coeff = calc_corr_coeff;
 params.mean_delta_I = mean_delta_I;
 params.mean_eps_I = mean_eps_I;
 params.variance_eps_S = variance_eps_S;
-params.variance_delta_S = variance_delta_S
+params.variance_delta_S = variance_delta_S;
 params.covariance_S = covariance_S;
 params.init_joint_S = init_joint_S;
 params.init_joint_I = init_joint_I;
 
-
 eps_perturb = 1.05e-4; % SIR peaks at 100 days
-% if readin_init_joint
-%
-%     S_init = N - eps_perturb;
-%     I_init = eps_perturb;
-%     R_init = eps_perturb;
 
-
-% else
 % Initializing Eigendirections
-
 
 [eigen_direction_SIR_ed] = get_eigendirection_mean_eps_delta(params);
 
@@ -304,13 +288,8 @@ init_conds = [reshape(init_values_S_eps_delta, m*n,1); reshape(init_values_I_eps
 %check should equal to population size
 % sum(sum((init_S_eps_delta_values + init_I_eps_delta_values + init_R_eps_delta_values),2));
 
-% plot initial distributions - if you want!
-if 1
-
-    plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
-
-end
-
+% plot initial distributions
+plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
 
 %% Simulate model
 
@@ -772,6 +751,6 @@ else
 
 end
 
-
+end
 
 

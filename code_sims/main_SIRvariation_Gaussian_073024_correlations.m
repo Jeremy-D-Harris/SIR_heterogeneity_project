@@ -1,5 +1,3 @@
-% function void = main_SIRvariation_Gaussian_correlations(void)
-
 % simulate SIR model with transmissibility & susceptibility variation
 % using Gaussian distribution
 % vary correlation coefficient
@@ -667,12 +665,7 @@ if want_to_plt_distributions
 
     end
 
-
-
-
 end
-
-
 
 
 %% collect results
@@ -724,8 +717,6 @@ results.CV2_delta_S_traj = CV2_delta_S_traj;
 % CV^2 transmissibility
 results.CV2_delta_I_traj = CV2_delta_I_traj;
 
-
-
 %%
 % save simulated results
 if save_results==1
@@ -733,27 +724,17 @@ if save_results==1
     folder_location = './../data/';
 
     if save_additional_results
-
         % + classic + variation susceptibility + reduced model
         save(strcat(folder_location,filename_results_list(AA)),'params','results','results_classic','results_var_susc','results_reduced');
-
-
     else
-
         % save variation in eps & delta, exclusively
         save(strcat(folder_location,filename_results_list(AA)),'params','results');
-
     end
-
     fprintf('Saved Results to File: \n');
     fprintf(strcat(filename_results_list(AA),'\n'));
-
 else
-
     fprintf('Results Not Saved. \n');
-
-end
-
 end
 
 
+end
