@@ -9,6 +9,7 @@ This repository contains all the MATLAB codes for both running & plotting result
 </ol>
 A preprint of the manuscript can be found on medRxiv. Please cite our work as:
 
+
 > Harris J.D., Gallmeier E., Dushoff J., Beckett S.J., Weitz J.S. 2024. Infections are not alike: the effects of covariation between individual susceptibility and transmissibility on epidemic dynamics. medRxiv aaaa doi: https://doi.org/10.1101/2024.bbbbbbbb 
 
 <br>
