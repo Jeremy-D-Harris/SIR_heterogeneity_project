@@ -47,7 +47,7 @@ this_infile = 'GaussianNoCorrelation.mat';
 load(strcat(file_location,this_infile));
 
 % should update?
-corr_coef(3) = 0; %params.corr_coeff;
+corr_coef(3) = params.corr_coeff;
 R0_collect(3) = results.Rt_traj(1);
 total_incidence_collect(:,3) = results.total_incidence;
 
@@ -76,7 +76,7 @@ corrcoef_vary = -1:0.05:1;
 variance_eps_S = 0.49;
 variance_delta_S = 0.34;
 
-R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*sqrt(variance_eps_S)*sqrt(variance_delta_S));
+R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*sqrt(variance_eps_S)*sqrt(variance_delta_S)); %remember <epsilon(0)> = <delta_S(0)> = 1
 
 
 

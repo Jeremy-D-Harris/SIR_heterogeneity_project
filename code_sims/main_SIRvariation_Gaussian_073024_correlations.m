@@ -2,6 +2,10 @@
 % using Gaussian distribution
 % vary correlation coefficient
 
+%if running from scratch -- want to:
+%a) run and save the distributions
+%b) then load from distributions to pull in the eigendirection.
+
 %%
 clear all; close all; clc;
 
@@ -16,11 +20,11 @@ readin_init_joint = 1;
 % 0: recreate
 % 1: open from file
 
-%save main results
-filename_results_list = ["GaussianPositiveCorrelation_0pt6.mat", "GaussianPositiveCorrelation_0pt3.mat", "GaussianNoCorrelation.mat", "GaussianNegativeCorrelation_0pt3.mat", "GaussianNegativeCorrelation_0pt6.mat"];
+%save main results (note lists are flipped)
+filename_results_list = fliplr(["GaussianPositiveCorrelation_0pt6.mat", "GaussianPositiveCorrelation_0pt3.mat", "GaussianNoCorrelation.mat", "GaussianNegativeCorrelation_0pt3.mat", "GaussianNegativeCorrelation_0pt6.mat"]);
 %save exp results to set initial condition distributions via
 %eigendistributions
-filename_distributions_load_list = ["GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat", "GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat", "Gaussian_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat"];
+filename_distributions_load_list = fliplr(["GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat", "GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat", "Gaussian_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat"]);
 
 intended_corr_coeff_list = [-0.6 -0.3 0 0.3 0.6]; %intended target distributions for corr coeff
 set_corr_coeff_list = [-0.9, -0.6, 0, 0.45, 0.8]; %initial test distributions to match from for corr coeff
@@ -31,6 +35,7 @@ set_mean_delta_S_list = [1.0, 0.9, 0.85, 0.72, 0.7];
 
 for AA = 1:length(filename_results_list)
 disp(strcat("working on list index ", num2str(AA)))
+
 
 
 %% options
@@ -53,7 +58,7 @@ save_additional_results = 1;
 % save distributions during exponential growth
 % want to plot distributions at certain time?
 want_to_plt_distributions = 1;
-save_distributions = 0; % save distribution at certain time?
+save_distributions = 1; % save distribution at certain time?
 index_day_distribution = 40; % what time? (days)
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
@@ -152,8 +157,8 @@ else
     params.intended_mean_delta = intended_mean_delta;
 
     % intended variance values: fixed across all simulations
-    intended_variance_eps = intended_variance_eps_list(AA); %0.49;
-    intended_variance_delta = intended_variance_delta_list(AA);% 0.34;
+    intended_variance_eps = intended_variance_eps_list; %0.49;  %NB not list
+    intended_variance_delta = intended_variance_delta_list;% 0.34; %NB not list
 
     params.intended_variance_eps = intended_variance_eps;
     params.intended_variance_delta = intended_variance_delta;
