@@ -4,7 +4,7 @@ clear all; close all; clc;
 
 colors_rgb = [133,192,249; 74,112,188.5; 15,32,128; 166 166 166]/255;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 

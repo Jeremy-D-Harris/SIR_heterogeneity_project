@@ -42,7 +42,7 @@ save_distributions = 0; % save distribution at certain time?
 index_day_distribution = 25; % what time? (days)
 
 % want to read in distribution from a file?
-readin_init_joint = 0;
+readin_init_joint = 1;
 filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
 
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
@@ -101,7 +101,7 @@ params.t_span = t_span;
 
 %% Initialize Joint Distributions & calculate Marginals
 
-if readin_init_joint
+if readin_init_joint  %MUST be set to 1 for this to work correctly here.
 
     % read in joint distribution from file, e.g., during exponential growth
 
