@@ -48,8 +48,9 @@ ind_delta_I_0pt5 = ind_temp(1);
 fprintf('Plotting Results of Gaussian Distribution... \n');
 
 %% Plotting
-% f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
-f1 = figure(1); set(f1, 'Position', [100 500 1000 850]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/96;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*1000 factor*850]);
 
 % ind_time_pt = 50;
 t = tiledlayout(2,2);

@@ -82,7 +82,9 @@ end
 
 
 %% Plotting
-f1 = figure(1); set(f1, 'Position', [100 500 1200 350]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*1200 factor*350]);
 
 %%
 for count = 1:3
@@ -124,8 +126,8 @@ for count = 1:3
         %legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.147 0.725 0.1 0.2],'FontSize',10);
         %legend(this_h,{legend_char1,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location',[0.147 0.725 0.1 0.2],'FontSize',10);
         lgd = legend(this_h,{legend_char1,legend_char3,legend_char4, legend_char5}, 'Interpreter','Latex','Location','NorthWest','FontSize',10);
-        lgd.Position(1) = 0.13;
-        lgd.Position(2) = 0.72;
+        %lgd.Position(1) = 0.13;
+        %lgd.Position(2) = 0.72;
 
     end
 

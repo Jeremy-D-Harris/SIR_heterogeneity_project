@@ -67,7 +67,9 @@ corr_coeff(5) = params.corr_coeff;
 
 
 %% Plotting
-f1 = figure(1); set(f1, 'Position', [100 500 1050 450]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*1050 factor*450]);
 
 
 %% plot disstributions for:

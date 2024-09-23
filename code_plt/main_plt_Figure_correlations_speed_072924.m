@@ -82,7 +82,9 @@ R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*sqrt(variance_eps_S)*sqrt
 
 
 %% Plotting
-f1 = figure(1); set(f1, 'Position', [100 500 900 350]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*900 factor*350]);
 
 
 %% plot incidence on linear scale

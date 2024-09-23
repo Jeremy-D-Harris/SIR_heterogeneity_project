@@ -29,8 +29,9 @@ load(strcat(file_location,infile_results));
 fprintf('Plotting Results of Gamma Distribution... \n');
 
 %% Plotting
-% f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
-f1 = figure(1); set(f1, 'Position', [100 500 1200 700]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 100 factor*1200 factor*700]);
 
 ind_time_pt = 50;
 
@@ -58,11 +59,11 @@ end
 
 axis([0 this_t_end_plt 0 0.025]);
 xlabel('Time (days)'); ylabel({'Incident infections, $\eta(t)$'},'Interpreter','Latex');
-f1=gca;
-f1.LineWidth = 1;
-f1.FontSize = 14;
-f1.FontWeight = 'normal';
-f1.FontName = 'Times';
+f2=gca;
+f2.LineWidth = 1;
+f2.FontSize = 14;
+f2.FontWeight = 'normal';
+f2.FontName = 'Times';
 
 
 txt = {'A'};
@@ -89,11 +90,11 @@ axis([0 this_t_end_plt 0 0.5]);
 xlabel('Time (days)'); 
 ylabel({'Coefficient of Variation (Squared)'});
 title('Susceptibility','FontWeight','normal');
-f1=gca;
-f1.LineWidth = 1;
-f1.FontSize = 14;
-f1.FontWeight = 'normal';
-f1.FontName = 'Times';
+f2=gca;
+f2.LineWidth = 1;
+f2.FontSize = 14;
+f2.FontWeight = 'normal';
+f2.FontName = 'Times';
 
 
 txt = {'B'};
@@ -119,11 +120,11 @@ axis([0 this_t_end_plt 0 0.5]);
 xlabel('Time (days)'); 
 ylabel({'Coefficient of Variation (Squared)'});
 title('Transmissibility','FontWeight','normal');
-f1=gca;
-f1.LineWidth = 1;
-f1.FontSize = 14;
-f1.FontWeight = 'normal';
-f1.FontName = 'Times';
+f2=gca;
+f2.LineWidth = 1;
+f2.FontSize = 14;
+f2.FontWeight = 'normal';
+f2.FontName = 'Times';
 
 txt = {'C'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
@@ -140,17 +141,17 @@ subplot(2,3,4);
 imagesc(params.eps,params.del,results.init_joint_S);
 set(gca,'YDir','normal');
 colormap(parula);
-f1=gca;
+f2=gca;
 xticks([0 1 2 3]);
 yticks([0 1 2 3]);
 axis([0 3 0 3]);
 
 xlabel('Susceptibility, $\varepsilon$','interpreter','latex');
 ylabel('Potential Transmissibility, $\delta$','interpreter','latex');
-f1.LineWidth = 1;
-f1.FontSize = 14;
-f1.FontWeight = 'normal';
-f1.FontName = 'Times';
+f2.LineWidth = 1;
+f2.FontSize = 14;
+f2.FontWeight = 'normal';
+f2.FontName = 'Times';
 
 title('Initial Joint Distribution, $f_S(0,\varepsilon,\delta)$','interpreter','latex','FontSize',12)
 
@@ -173,11 +174,11 @@ axis([0 3 0 1.08]);
 yticks([]);
 xlabel('Susceptibility, $\varepsilon$','interpreter','latex');
 ylabel({'Population Density'});
-f1=gca;
-f1.LineWidth = 1;
-f1.FontSize = 14;
-f1.FontWeight = 'normal';
-f1.FontName = 'Times';
+f2=gca;
+f2.LineWidth = 1;
+f2.FontSize = 14;
+f2.FontWeight = 'normal';
+f2.FontName = 'Times';
 
 title('Susceptibility','FontWeight','normal');
 
@@ -204,11 +205,11 @@ axis([0 3 0 1.8]);
 yticks([]);
 xlabel('Transmissibility, $\delta$','interpreter','latex');
 ylabel({'Population Density'});
-f1=gca;
-f1.LineWidth = 1;
-f1.FontSize = 14;
-f1.FontWeight = 'normal';
-f1.FontName = 'Times';
+f2=gca;
+f2.LineWidth = 1;
+f2.FontSize = 14;
+f2.FontWeight = 'normal';
+f2.FontName = 'Times';
 
 title('Transmissibility','FontWeight','normal');
 

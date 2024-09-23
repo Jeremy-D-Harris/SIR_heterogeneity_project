@@ -127,8 +127,9 @@ end
 %% plotting
 
 f1 = figure(1);
-%set(f1, 'Position', [100 100 1000 1000]);
-set(f1, 'Position', [100 100 1000 1500]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/96;
+set(f1, 'Position', [100 100 factor*1000 factor*1500]);
 t = tiledlayout(4,3);
 
 sp1=nexttile;

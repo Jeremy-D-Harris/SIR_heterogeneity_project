@@ -30,8 +30,9 @@ load(strcat(file_location,infile_results));
 fprintf('Plotting Results of Gaussian Distribution... \n');
 
 %% Plotting
-% f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
-f1 = figure(1); set(f1, 'Position', [100 500 1200 700]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 100 factor*1200 factor*700]);
 
 ind_time_pt = 50;
 

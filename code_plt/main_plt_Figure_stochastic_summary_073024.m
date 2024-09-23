@@ -23,7 +23,10 @@ file_location = '../data/';
 load(append(file_location,"stochastic_output_31Jul2024125047.mat"))
 
 %% Plotting
-f1 = figure(1); set(f1, 'Position', [100 500 900 350]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/96;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*900 factor*350]);
+
 
 Outbreak_thresh = 50; %50 cases denotes an outbreak
 

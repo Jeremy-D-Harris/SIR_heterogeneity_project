@@ -1,5 +1,6 @@
 function [] = plt_initdistributions(eps_plt,del_plt,joint_S,joint_I, corr_coeff, count)
-
+%X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+%factor = X/72;
 % f1=figure; set(f1, 'Position', [10   50   850   700]);
 
 %% top panels
