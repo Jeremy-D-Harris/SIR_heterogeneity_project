@@ -13,7 +13,7 @@ save_results = 1;
 % 1: save
 
 %names for results files
-filenamelist = ['GaussianPositiveCorrelation_0pt6_matchR0.mat' 'GaussianNoCorrelation.mat' 'GaussianNegativeCorrelation_0pt6_matchR0.mat'];
+filenamelist = ["GaussianPositiveCorrelation_0pt6_matchR0.mat" "GaussianNoCorrelation.mat" "GaussianNegativeCorrelation_0pt6_matchR0.mat"];
 % initial guess of beta for R0 to match
 % must change manually with parameter rho:
 % rho = -0.6, 0, 0.6
@@ -45,7 +45,7 @@ index_day_distribution = 40; % what time? (days)
 
 % want to read in distribution from a file?
 readin_init_joint = 1;
-filename_distributionslist = ['GaussianPositiveCorrelation_0pt6_joint_expgrowth_matchR0.mat' 'Gaussian_joint_expgrowth.mat' 'GaussianNegativeCorrelation_0pt6_joint_expgrowth_matchR0.mat'];
+filename_distributionslist = ["GaussianPositiveCorrelation_0pt6_joint_expgrowth_matchR0.mat" "Gaussian_joint_expgrowth.mat" "GaussianNegativeCorrelation_0pt6_joint_expgrowth_matchR0.mat"];
 
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
 

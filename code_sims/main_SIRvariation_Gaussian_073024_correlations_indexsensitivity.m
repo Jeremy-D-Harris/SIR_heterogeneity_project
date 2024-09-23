@@ -13,7 +13,7 @@ save_results = 1;
 
 % setting up options for changing index case
 
-filenamelist = ['GaussianNoCorrelation_N10000_delta0pt5.mat' 'GaussianNoCorrelation_N10000.mat' 'GaussianNoCorrelation_N10000_delta2.mat'];
+filenamelist = {'GaussianNoCorrelation_N10000_delta0pt5.mat'; 'GaussianNoCorrelation_N10000.mat'; 'GaussianNoCorrelation_N10000_delta2.mat'};
 setIdeltamean = [0.5 1 2];  %scenarios with differing mean delta corresponding to index case
 
 
@@ -49,7 +49,7 @@ my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
 
 %for each scenario with differing index case 
 for aa = 1:length(filenamelist)
-filename_results = filenamelist(aa);
+filename_results = filenamelist{aa};
 
 
 %% parameters
