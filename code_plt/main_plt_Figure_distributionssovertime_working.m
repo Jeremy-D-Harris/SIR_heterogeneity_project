@@ -1,12 +1,10 @@
-% % plot marginal distributions over time
-
-%%
+%% plot marginal distributions over time
 
 clear all; close all; clc;
 
 colors_rgb = [133,192,249; 74,112,188.5; 15,32,128; 166 166 166]/255;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 
@@ -27,30 +25,23 @@ txt_eps2 = ['$\bar{\varepsilon}(t_1) = ', num2str(epsilon_level(2),'%1.2f'), '$ 
 txt_eps3 = ['$\bar{\varepsilon}(t_2) = ', num2str(epsilon_level(3),'%1.2f'), '$ '];
 txt_eps4 = ['$\bar{\varepsilon}(t_3) = ', num2str(epsilon_level(4),'%1.2f'), '$ '];
 
-
-%%
 % need to load all three cases first:
 file_location = '../data/';
 
 for count = 1:3
 
-    if count==1
+    if count==1`
         % (1) positive correlations
         infile_independent = 'GaussianPositiveCorrelation_0pt6_matchR0.mat';
         load(strcat(file_location,infile_independent));
-
-
     elseif count==2
         % (2) no correlations
         infile_positivecorrelations = 'GaussianNoCorrelation.mat';
         load(strcat(file_location,infile_positivecorrelations));
-
-
     else
         % (3) negative correlations
         infile_negativecorrelations = 'GaussianNegativeCorrelation_0pt6_matchR0.mat';
         load(strcat(file_location,infile_negativecorrelations));
-
     end
 
     %% load parameters
@@ -105,20 +96,15 @@ for count = 1:3
 
     marginal_transmissibility(count,:) = this_marginal_delta_I_traj;
 
-
-
 end
 
 
 
 %% Plotting
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
 f1 = figure(1);
-set(f1, 'Position', [100 100 1000 1000]);
-% annotation('rectangle',[0.37 0.11 0.55 0.21], 'Color','black','LineWidth',2);
-% annotation('rectangle',[0.37 0.32 0.55 0.21], 'Color','black','LineWidth',2);
-% annotation('rectangle',[0.37 0.53 0.55 0.21], 'Color','black','LineWidth',2);
-% annotation('rectangle',[0.37 0.74 0.55 0.25], 'Color','black','LineWidth',2);
-
+set(f1, 'Position', [100 100 factor*1000 factor*1000]);
 sp1=subplot(4,3,1);
 
 old_pos = get(sp1, 'Position');
@@ -134,16 +120,12 @@ this_p(1) =plot(t_span, total_incidence_classic,'Color',colors_rgb(4,:),'LineWid
 box('off');
 
 for count = 1:3
-
-
     this_p(5-count) =plot(t_span, total_incidence(:,4-count),'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
     this_p(5-count).Color(4)=0.85;
-
-
 end
 axis([0 this_t_end_plt 0 0.025]);
 xlabel('Time (days)'); ylabel({'Incident';'Infections, $\eta(t)$'},'Interpreter','Latex');
-% ylabel({'Total'; 'Incidence, $i(t)$'},'Interpreter','Latex');
+
 f1=gca;
 f1.LineWidth = 1;
 f1.FontSize = 14;
@@ -165,8 +147,6 @@ text(0.025,1.045,txt,'Units','normalized','FontSize',14,'FontWeight','bold');
 set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
 old_pos = get(f1, 'Position');
 
-
-
 %% now plot mean susceptibility
 f1=subplot(4,3,7);
 for count=1:3
@@ -187,7 +167,6 @@ for kk=1:length(epsilon_level)
     end
 end
 
-
 axis([0 this_t_end_plt 0.5 1.1]);
 xlabel('Time (days)'); ylabel({'Mean' ; 'Susceptiblity, $\bar{\varepsilon}(t)$'},'interpreter','latex');
 f1=gca;
@@ -196,14 +175,12 @@ f1.FontSize = 14;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-
 set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
 old_pos = get(f1, 'Position');
 
 yticks([0.5 0.6 0.8 1 1.1]);
 set(f1,'xticklabel',{[]},'yticklabel',[{' '},{'0.6'},{'0.8'},{'1.0'},{' '}]);
 box('off');
-
 
 %% plot effective transmission rate
 f1=subplot(4,3,10);
@@ -222,7 +199,6 @@ f1.FontName = 'Times';
 set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
 old_pos = get(f1, 'Position');
 
-
 yticks([0.15 0.2 0.25 0.3]);
 set(f1,'yticklabel',[{'0.15'},{'0.20'},{'0.25'},{''}]);
 box('off');
@@ -231,7 +207,6 @@ txt = {'0.30'};
 text(-0.135,0.935,txt,'Units','normalized',...
     'FontSize',14,'FontWeight','normal','FontName', 'Times');
 
-
 %% handle marginals: plot at different epsilon levels
 % find mean susceptibility level for each case
 for count_eps = 1:length(epsilon_level)
@@ -239,19 +214,15 @@ for count_eps = 1:length(epsilon_level)
     this_epsilon_level = epsilon_level(count_eps);
 
     for count=1:3
-
-
         ind = find(mean_eps_S_traj(:,count)<this_epsilon_level);
         this_ind_t_int = ind(1);
 
         this_t_int = t_span(this_ind_t_int);
-        %         t_int(count_eps,count) = this_t_int;
-
+      
         this_mean_eps_S_int = mean_eps_S_traj(this_ind_t_int,count);
-        %         mu_epsilon(count) = this_mu_epsilon;
 
         this_mean_delta_I_int = mean_delta_I_traj(this_ind_t_int,count);
-        %         mu_delta(count) = this_mu_delta;
+
         mean_delta_I_int(count_eps,count) = this_mean_delta_I_int;
 
         this_marginal_susceptibility(1,:) = marginal_susceptibility(count,:);
@@ -270,11 +241,7 @@ for count_eps = 1:length(epsilon_level)
         ind_delta_int(count) = this_ind_delta_int;
         collect_ind_delta_int(count_eps,count) = this_ind_delta_int;
 
-
-
-
     end
-
 end
 
 
@@ -289,7 +256,6 @@ for count_eps = 1:length(epsilon_level)
 
         subplot(4,3,(2+3*(count_eps-1)));
         this_q=plot(eps,plt_this_susceptibility_distribution,'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
-        % this_q.Color(4)=0.85;
 
         if count==1
             plot(this_epsilon_level,0,'.','Color',colors_rgb(4-count,:),'LineWidth',2,'MarkerSize',20);
@@ -308,29 +274,20 @@ for count_eps = 1:length(epsilon_level)
         f1.FontWeight = 'normal';
         f1.FontName = 'Times';
 
-
-
-
         if count==3
 
             if count_eps == 1
-
                 old_pos = get(f1, 'Position');
                 set(f1,'Position',[old_pos(1),frac_spacing,old_pos(3),frac_scaling]);
                 old_pos = get(f1, 'Position');
-
             else
-
                 set(f1,'Position',[old_pos(1), old_pos(2)-frac_scaling, old_pos(3), old_pos(4)])
                 old_pos = get(f1, 'Position');
-
             end
-
+            
             set(f1,'xticklabel',{[]},'yticklabel',{[]});
             box('off');
-
         end
-
 
         if count_eps == 1
 
@@ -339,17 +296,13 @@ for count_eps = 1:length(epsilon_level)
             title('Susceptibility','FontSize',16,'FontWeight','normal');
 
             text(0.6,0.85,txt_eps1,'Interpreter','Latex','Units','normalized','FontSize',14);
-
         elseif count_eps == 2
 
             text(0.6,0.85,txt_eps2,'Interpreter','Latex','Units','normalized','FontSize',14);
 
-
         elseif count_eps == 3
 
             text(0.6,0.85,txt_eps3,'Interpreter','Latex','Units','normalized','FontSize',14);
-
-
         else
 
             text(0.6,0.85,txt_eps4,'Interpreter','Latex','Units','normalized','FontSize',14);
@@ -360,11 +313,9 @@ for count_eps = 1:length(epsilon_level)
             xlabel('Susceptibility, $\varepsilon$','interpreter','latex');
         end
 
-
     end
 
 end
-
 
 
 %% now plot marginals for transmissibility
@@ -377,7 +328,6 @@ for count_eps = 1:length(epsilon_level)
 
         this_collect_mean_delta_int = mean_delta_I_int(count_eps,4-count);
 
-        %         collect_marginal_transmissibility(count_eps,count,:)
         plt_this_transmissibility_distribution(1,:) = collect_marginal_transmissibility(count_eps,4-count,:);
 
         this_q=plot(eps,plt_this_transmissibility_distribution,'Color',colors_rgb(4-count,:),'LineWidth',2.5); hold on;
@@ -387,14 +337,13 @@ for count_eps = 1:length(epsilon_level)
 
         axis([0 3 0 1]);
         yticks([]);
-        %         xlabel('Susceptibility, $\varepsilon$','interpreter','latex');
+
         ylabel({['$h_I(t_',num2str(count_eps-1),',\delta)$']},'interpreter','latex');
         f1=gca;
         f1.LineWidth = 1;
         f1.FontSize = 16;
         f1.FontWeight = 'normal';
         f1.FontName = 'Times';
-
 
         if count==3
 
@@ -415,8 +364,6 @@ for count_eps = 1:length(epsilon_level)
             box('off');
 
         end
-
-
 
     end
 
@@ -432,11 +379,9 @@ for count_eps = 1:length(epsilon_level)
 
         text(0.6,0.85,txt_eps2,'Interpreter','Latex','Units','normalized','FontSize',14);
 
-
     elseif count_eps == 3
 
         text(0.6,0.85,txt_eps3,'Interpreter','Latex','Units','normalized','FontSize',14);
-
 
     else
 
@@ -447,7 +392,6 @@ for count_eps = 1:length(epsilon_level)
 
         xlabel('Transmissibility, $\delta$','interpreter','latex');
 
-
     end
 
 end
@@ -456,7 +400,7 @@ end
 %%
 sp1 = subplot(4,3,1);
 delete(sp1);
-legend_char1 = 'Classic SIR';
+legend_char1 = 'SIR';
 legend_char2 = 'Positive Correlation, $\rho > 0$';
 legend_char3 = 'No Correlation, $\rho = 0$';
 legend_char4 = 'Negative Correlation, $\rho < 0$';

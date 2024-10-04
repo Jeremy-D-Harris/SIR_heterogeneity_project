@@ -1,14 +1,11 @@
-% function void = main_plt_Figure_Gaussian_lowvariance_072924(void)
-
 % plot results SIR model with transmissibility & susceptibility variation
-
 
 %% set up
 % plot results from Gamma Distribution
 
 clear all; close all; clc;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 
@@ -34,8 +31,9 @@ load(strcat(file_location,infile_results));
 fprintf('Plotting Results of Gaussian Distribution... \n');
 
 %% Plotting
-% f1 = figure(1); set(f1, 'Position', [100 500 1000 700]);
-f1 = figure(1); set(f1, 'Position', [100 500 1200 700]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 100 factor*1200 factor*700]);
 
 ind_time_pt = 40;
 
@@ -73,23 +71,18 @@ f1.FontName = 'Times';
 txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-legend_char1 = 'SIR Model';
+legend_char1 = 'SIR';
 legend_char2 = 'Variation ($\varepsilon$,\,$\delta$)';
 legend_char3 = 'Variation ($\varepsilon$)';
 legend_char4 = 'Reduced Model';
 
 legend(this_p,{legend_char1,legend_char2, legend_char3, legend_char4}, 'Position', [0.245 0.84 0.09 0.07],'FontSize',10,'Interpreter','Latex');
 
-
-
 % panel B: CV^2 Susceptibility
 subplot(2,3,2);
 this_q(2) = plot(params.t_span, results.CV2_eps_S_traj,'Color',colors_rgb(1,:),'LineWidth',2.5);hold on;
 this_q(1) = plot(params.t_span, results_var_susc.CV2_eps_S_traj,'--','Color',colors_rgb(2,:),'LineWidth',2.5); hold on;
 this_q(3) = plot(params.t_span, params.variance_eps_S./results.mean_eps_S_traj.^2,':','Color',colors_rgb(5,:),'LineWidth',2);hold on;
-
-% text(0.7,0.6,'$\frac{1}{k_{\varepsilon}} = \frac{1}{3}$','Interpreter','Latex','Units','normalized','FontSize',16,'Color',colors_rgb(5,:))
-% this_p(1).Color(4) = 0.8;
 
 axis([0 this_t_end_plt 0 0.5]);
 xlabel('Time (days)');
@@ -101,11 +94,10 @@ f1.FontSize = 14;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-
 txt = {'B'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-% legend_char1 = 'SIR model';
+% legend_char1 = 'SIR';
 legend_char1 = 'Variation Susceptibility ($\varepsilon$,\,$\delta$)';
 legend_char2 = 'Variation Susceptibility ($\varepsilon$)';
 legend_char3 = 'Reduced Model';
@@ -132,17 +124,14 @@ f1.FontSize = 14;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-
 txt = {'C'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
-
 
 legend_char1 = 'Variation Potential Transmissibility $(\varepsilon,\,\delta)$ ';
 legend_char2 = 'Variation Effective Transmissibility $(\varepsilon,\,\delta)$, ';
 legend_char3 = 'Reduced Model';
 
 legend(this_r,{legend_char1,legend_char2,legend_char3}, 'interpreter','latex','Position',[0.755 0.855 0.095 0.06],'FontSize',10);
-
 
 % panel D: Initial joint distribution
 subplot(2,3,4);
@@ -166,7 +155,6 @@ title('Initial Joint Distribution, $f_S(0,\varepsilon,\delta)$','interpreter','l
 txt = {'D'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 
-
 % panel E: marginals for susceptibility
 subplot(2,3,5);
 
@@ -175,7 +163,6 @@ this_s(2) = plot(params.eps,results.marginal_eps_S_traj(ind_time_pt,:),'--','Col
 
 plot(results.mean_eps_S_traj(1),0,'o','Color',colors_rgb(2,:),'LineWidth',2,'MarkerSize',14);
 plot(results.mean_eps_S_traj(ind_time_pt),0,'o','Color',colors_rgb(4,:),'LineWidth',2,'MarkerSize',9);
-
 
 text(0.33,0.07,'$\overline{\varepsilon}$','Interpreter','Latex','Units','normalized','FontSize',16)
 

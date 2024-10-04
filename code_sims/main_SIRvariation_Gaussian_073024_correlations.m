@@ -1,25 +1,40 @@
-% function void = main_SIRvariation_Gaussian_correlations(void)
-
 % simulate SIR model with transmissibility & susceptibility variation
 % using Gaussian distribution
 % vary correlation coefficient
+
+%if running from scratch -- want to:
+%a) run and save the distributions
+%b) then load from distributions to pull in the eigendirection.
 
 %%
 clear all; close all; clc;
 
 
 %% want to save results?
-save_results = 0;
+save_results = 1;
 % 0: don't save
 % 1: save
 
-% have to manually select :(
+% want to read in distribution from a file?
+readin_init_joint = 1;
+% 0: recreate
+% 1: open from file
 
-% filename_results = 'GaussianPositiveCorrelation_0pt6.mat';
-% filename_results = 'GaussianPositiveCorrelation_0pt3.mat';
-% filename_results = 'GaussianNoCorrelation.mat';
-% filename_results = 'GaussianNegativeCorrelation_0pt3.mat';
-filename_results = 'GaussianNegativeCorrelation_0pt6.mat';
+%save main results (note lists are flipped)
+filename_results_list = fliplr(["GaussianPositiveCorrelation_0pt6.mat", "GaussianPositiveCorrelation_0pt3.mat", "GaussianNoCorrelation.mat", "GaussianNegativeCorrelation_0pt3.mat", "GaussianNegativeCorrelation_0pt6.mat"]);
+%save exp results to set initial condition distributions via
+%eigendistributions
+filename_distributions_load_list = fliplr(["GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat", "GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat", "Gaussian_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat", "GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat"]);
+
+intended_corr_coeff_list = [-0.6 -0.3 0 0.3 0.6]; %intended target distributions for corr coeff
+set_corr_coeff_list = [-0.9, -0.6, 0, 0.45, 0.8]; %initial test distributions to match from for corr coeff
+intended_variance_eps_list =0.49; % target variance - may not be exact via matching.
+intended_variance_delta_list =0.34;% target variance - may not be exact via matching.
+set_mean_eps_S_list = [0.62, 0.49, 0.51, 0.44, 0.495];
+set_mean_delta_S_list = [1.0, 0.9, 0.85, 0.72, 0.7];
+
+for AA = 1:length(filename_results_list)
+disp(strcat("working on list index ", num2str(AA)))
 
 
 
@@ -29,32 +44,22 @@ run_classic_SIR = 1;
 % save_results_classic = 1;
 
 % run & save variation in susceptibility SIR?
-run_variation_susc_SIR = 0;
+run_variation_susc_SIR = 1;
 % save_results_variation_susc = 1;
 
 % run & save reduced model?
-run_reduced_SIR = 0;
+run_reduced_SIR = 1;
 % save_results_reduced = 1;
 
 % note! - could get a save error, if didn't run but wanted to save
-save_additional_results = 0;
+save_additional_results = 1;
 
 
 % save distributions during exponential growth
 % want to plot distributions at certain time?
 want_to_plt_distributions = 1;
-save_distributions = 0; % save distribution at certain time?
+save_distributions = 1; % save distribution at certain time?
 index_day_distribution = 40; % what time? (days)
-
-% want to read in distribution from a file?
-readin_init_joint = 1;
-
-%  manually change over :(
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat';
-% filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat';
-filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
 %  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
@@ -114,11 +119,8 @@ if readin_init_joint
     % read in joint distribution from file, e.g., during exponential growth
 
     folder_location = './sim_results/';
-    % filename_distributions_load = 'Gaussian_joint_expgrowth_nocorr.mat';
-    % filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
-
-    load(strcat(folder_location,filename_distributions_load));
+    load(strcat(folder_location,filename_distributions_load_list(AA)));
     init_joint_S  = data.init_joint_S;
     init_joint_I  = data.init_joint_I;
     init_joint_R  = data.init_joint_R;
@@ -128,7 +130,7 @@ if readin_init_joint
 
     fprintf('Initial Distributions: \n');
     fprintf('Load From: \n');
-    fprintf(strcat(filename_distributions_load,'\n\n'));
+    fprintf(strcat(filename_distributions_load_list(AA),'\n\n'));
 
 else
 
@@ -144,7 +146,7 @@ else
 
     % target values are:
     % -0.6 -0.3 0.3 0.6
-    intended_corr_coeff = -0.6;
+    intended_corr_coeff = intended_corr_coeff_list(AA);
     params.intended_corr_coeff = intended_corr_coeff;
 
     % intended mean values
@@ -155,8 +157,8 @@ else
     params.intended_mean_delta = intended_mean_delta;
 
     % intended variance values: fixed across all simulations
-    intended_variance_eps = 0.49;
-    intended_variance_delta = 0.34;
+    intended_variance_eps = intended_variance_eps_list; %0.49;  %NB not list
+    intended_variance_delta = intended_variance_delta_list;% 0.34; %NB not list
 
     params.intended_variance_eps = intended_variance_eps;
     params.intended_variance_delta = intended_variance_delta;
@@ -165,16 +167,16 @@ else
     % -0.9, -0.6, 0, 0.45, 0.8 corresponding to
     % -0.6, -0.3, 0, 0.3, 0.6
     
-    set_corr_coeff = -0.9;
+    set_corr_coeff = set_corr_coeff_list(AA);%-0.9;
     % 'set' means what you put into the pdf function!
 
     % initial guess: corresponding mean eps in S:
     % 0.62, 0.49, 0.51, 0.44, 0.495 
-    set_mean_eps_S = 0.62;
+    set_mean_eps_S = set_mean_eps_S_list(AA);% 0.62;
 
     % initial guess: corresponding mean delta in S:
     % 1.0, 0.9, 0.85, 0.72, 0.7
-    set_mean_delta_S = 1;
+    set_mean_delta_S = set_mean_delta_S_list(AA);% 1;
     
     % these are fixed values included in pdf
     set_variance_eps = 1;
@@ -249,7 +251,7 @@ params.corr_coeff = calc_corr_coeff;
 params.mean_delta_I = mean_delta_I;
 params.mean_eps_I = mean_eps_I;
 params.variance_eps_S = variance_eps_S;
-params.variance_delta_S = variance_delta_S
+params.variance_delta_S = variance_delta_S;
 params.covariance_S = covariance_S;
 params.init_joint_S = init_joint_S;
 params.init_joint_I = init_joint_I;
@@ -290,7 +292,7 @@ init_conds = [reshape(init_values_S_eps_delta, m*n,1); reshape(init_values_I_eps
 % sum(sum((init_S_eps_delta_values + init_I_eps_delta_values + init_R_eps_delta_values),2));
 
 % plot initial distributions - if you want!
-if 1
+if want_to_plt_distributions == 1
 
     plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
 
@@ -657,10 +659,10 @@ if want_to_plt_distributions
 
         folder_location = './sim_results/';
 
-        save(strcat(folder_location,filename_distributions_load),'data');
+        save(strcat(folder_location,filename_distributions_load_list(AA)),'data');
 
         fprintf('Saved Distribution to File: \n');
-        fprintf(strcat(filename_distributions_load,'\n\n'));
+        fprintf(strcat(filename_distributions_load_list(AA),'\n\n'));
 
     else
 
@@ -668,12 +670,7 @@ if want_to_plt_distributions
 
     end
 
-
-
-
 end
-
-
 
 
 %% collect results
@@ -725,8 +722,6 @@ results.CV2_delta_S_traj = CV2_delta_S_traj;
 % CV^2 transmissibility
 results.CV2_delta_I_traj = CV2_delta_I_traj;
 
-
-
 %%
 % save simulated results
 if save_results==1
@@ -734,27 +729,17 @@ if save_results==1
     folder_location = './../data/';
 
     if save_additional_results
-
         % + classic + variation susceptibility + reduced model
-        save(strcat(folder_location,filename_results),'params','results','results_classic','results_var_susc','results_reduced');
-
-
+        save(strcat(folder_location,filename_results_list(AA)),'params','results','results_classic','results_var_susc','results_reduced');
     else
-
         % save variation in eps & delta, exclusively
-        save(strcat(folder_location,filename_results),'params','results');
-
+        save(strcat(folder_location,filename_results_list(AA)),'params','results');
     end
-
     fprintf('Saved Results to File: \n');
-    fprintf(strcat(filename_results,'\n'));
-
+    fprintf(strcat(filename_results_list(AA),'\n'));
 else
-
     fprintf('Results Not Saved. \n');
-
 end
 
 
-
-
+end

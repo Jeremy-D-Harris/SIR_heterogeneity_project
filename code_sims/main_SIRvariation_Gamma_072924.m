@@ -1,5 +1,3 @@
-% function void = main_SIRvariation_Gamma(void)
-
 % simulate SIR model with transmissibility & susceptibility variation
 % using Gamma distribution
 
@@ -320,7 +318,6 @@ results.Rt_traj = Rt_traj_eps_delta;
 total_incidence = bet*mean_delta_I_traj.*I_traj.*mean_eps_S_traj.*S_traj;
 results.total_incidence = total_incidence;
 
-
 % coefficient of variation (squared)
 
 % CV^2 susceptibility
@@ -510,14 +507,6 @@ if run_variation_susc_SIR
 
 end
 
-% if run_reduced_SIR
-%
-%     plot(params.t_span, S_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, I_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, R_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%
-% end
-
 axis([0 t_end 0 1.1]);
 xlabel('Time (days)'); ylabel({'Population'; 'Fraction'});
 title('Dynamics')
@@ -532,7 +521,7 @@ r(1)=plot(params.t_span, mean_eps_S_traj,'-','Color',my_rgb_colors(3,:),'LineWid
 axis([0 t_end 0.2 1.2]);
 % ylim([0 2])
 title('Mean Trajectories');
-xlabel('Time (days)'); %ylabel({'Population'; 'Fraction'});
+xlabel('Time (days)'); 
 set(gca,'LineWidth',1,'FontSize',14, 'FontWeight','normal','FontName','Times');
 
 legend(r,{'$\bar{\varepsilon}$','$\bar{\delta}_I$'},'Interpreter','Latex','Location','SouthWest');
@@ -590,14 +579,9 @@ if want_to_plt_distributions
     else
 
         fprintf('Distribution Not Saved. \n\n');
-
     end
 
-
-
-
 end
-
 
 
 
@@ -651,7 +635,6 @@ results.CV2_delta_S_traj = CV2_delta_S_traj;
 results.CV2_delta_I_traj = CV2_delta_I_traj;
 
 
-
 %%
 % save simulated results
 if save_results==1
@@ -659,27 +642,16 @@ if save_results==1
     folder_location = './../data/';
 
     if save_additional_results
-
         % + classic + variation susceptibility + reduced model
         save(strcat(folder_location,filename_results),'params','results','results_classic','results_var_susc','results_reduced');
-
-
     else
-
         % save variation in eps & delta, exclusively
         save(strcat(folder_location,filename_results),'params','results');
-
     end
 
     fprintf('Saved Results to File: \n');
     fprintf(strcat(filename_results,'\n'));
-
 else
 
     fprintf('Results Not Saved. \n');
-
 end
-
-
-
-

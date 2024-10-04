@@ -1,27 +1,15 @@
-% function void = main_SIRvariation_Gaussian_correlations(void)
-
 % simulate SIR model with transmissibility & susceptibility variation
-% using Gaussian distribution
-% vary correlation coefficient
+% using low variance Gaussian distribution
 
 %%
 clear all; close all; clc;
 
-
 %% want to save results?
-save_results = 0;
+save_results = 1;
 % 0: don't save
 % 1: save
 
-% have to manually select :(
-
-% filename_results = 'GaussianPositiveCorrelation_0pt6.mat';
-% filename_results = 'GaussianPositiveCorrelation_0pt3.mat';
 filename_results = 'GaussianNoCorrelation_lowvariance.mat';
-% filename_results = 'GaussianNegativeCorrelation_0pt3.mat';
-% filename_results = 'GaussianNegativeCorrelation_0pt6.mat';
-
-
 
 %% options
 % run & save Classic SIR?
@@ -49,14 +37,8 @@ index_day_distribution = 40; % what time? (days)
 % want to read in distribution from a file?
 readin_init_joint = 0;
 
-%  manually change over :(
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat';
 filename_distributions_load = 'Gaussian_joint_expgrowth_lowvariance.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
-%  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
 
 
@@ -69,14 +51,12 @@ intended_R0 = 2;
 % match basic reproduction numbers: R0=2
 bet=intended_R0*gam; %Poisson-like, rho=0
 
-
 % starting population
 N = 1; % population size
 
 % discrete mesh
 n = 100; % number transmissibility classes
 m = n; % susceptibilty classes
-
 
 eps_end = 6;
 eps = linspace(0,eps_end,m);
@@ -114,9 +94,6 @@ if readin_init_joint
     % read in joint distribution from file, e.g., during exponential growth
 
     folder_location = './sim_results/';
-    % filename_distributions_load = 'Gaussian_joint_expgrowth_nocorr.mat';
-    % filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
-
 
     load(strcat(folder_location,filename_distributions_load));
     init_joint_S  = data.init_joint_S;
@@ -254,23 +231,15 @@ params.corr_coeff = calc_corr_coeff;
 params.mean_delta_I = mean_delta_I;
 params.mean_eps_I = mean_eps_I;
 params.variance_eps_S = variance_eps_S;
-params.variance_delta_S = variance_delta_S
+params.variance_delta_S = variance_delta_S;
 params.covariance_S = covariance_S;
 params.init_joint_S = init_joint_S;
 params.init_joint_I = init_joint_I;
 
 
 eps_perturb = 1.05e-4; % SIR peaks at 100 days
-% if readin_init_joint
-%
-%     S_init = N - eps_perturb;
-%     I_init = eps_perturb;
-%     R_init = eps_perturb;
 
-
-% else
 % Initializing Eigendirections
-
 
 [eigen_direction_SIR_ed] = get_eigendirection_mean_eps_delta(params);
 
@@ -294,13 +263,8 @@ init_conds = [reshape(init_values_S_eps_delta, m*n,1); reshape(init_values_I_eps
 %check should equal to population size
 % sum(sum((init_S_eps_delta_values + init_I_eps_delta_values + init_R_eps_delta_values),2));
 
-% plot initial distributions - if you want!
-if 1
-
-    plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
-
-end
-
+% plot initial distributions
+plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
 
 %% Simulate model
 
@@ -380,9 +344,7 @@ for kk=1:length(t_span)
     this_joint_R(:,:) = reshape(R_traj_eps_delta_array(kk,:,:),m,n)/R_traj(kk)/dx/dx;
     joint_R_traj(kk,:,:) = this_joint_R;
 
-
 end
-
 
 
 %% get Rt - variation in eps & delta
@@ -582,13 +544,6 @@ q(1)=plot(params.t_span, S_traj,'Color',my_rgb_colors(3,:),'LineWidth',2); hold 
 q(2)=plot(params.t_span, I_traj,'Color',my_rgb_colors(2,:),'LineWidth',2); hold on;
 q(3)=plot(params.t_span, R_traj,'Color',my_rgb_colors(1,:),'LineWidth',2); hold on;
 
-% if run_variation_susc_SIR
-%
-%     plot(params.t_span, S_traj_var_susc,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, I_traj_var_susc,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, R_traj_var_susc,'k--','LineWidth',2); hold on;
-%
-% end
 
 if run_reduced_SIR
 
@@ -668,17 +623,10 @@ if want_to_plt_distributions
         fprintf(strcat(filename_distributions_load,'\n\n'));
 
     else
-
         fprintf('Distribution Not Saved. \n\n');
-
     end
 
-
-
-
 end
-
-
 
 
 %% collect results
@@ -730,8 +678,6 @@ results.CV2_delta_S_traj = CV2_delta_S_traj;
 % CV^2 transmissibility
 results.CV2_delta_I_traj = CV2_delta_I_traj;
 
-
-
 %%
 % save simulated results
 if save_results==1
@@ -739,27 +685,15 @@ if save_results==1
     folder_location = './../data/';
 
     if save_additional_results
-
         % + classic + variation susceptibility + reduced model
         save(strcat(folder_location,filename_results),'params','results','results_classic','results_var_susc','results_reduced');
-
-
     else
-
         % save variation in eps & delta, exclusively
         save(strcat(folder_location,filename_results),'params','results');
-
     end
-
     fprintf('Saved Results to File: \n');
     fprintf(strcat(filename_results,'\n'));
-
 else
-
     fprintf('Results Not Saved. \n');
-
 end
-
-
-
 

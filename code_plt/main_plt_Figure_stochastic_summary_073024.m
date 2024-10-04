@@ -1,24 +1,20 @@
-% % plot stochastic simulation summary statistics
-
-%%
+%% plot stochastic simulation summary statistics
 
 clear all; close all; clc;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 
 figure_name = 'Figure_stochastic_summary_073124';
-figure_name2 = 'Figure_stochastic_histograms_073124';
+figure_name2 = 'Figure_stochastic_histograms_091624';
 
 %create color gradiets
 c2 = [133,192,249]/255; % light blue
 c1 = [15,32,128]/255; % dark blue
 
 depth = 9;
-[grad1,im]=colorGradient(c2,c1,depth);
-% [grad2,im]=colorGradient(c2,c3,depth);
-
+grad1=colorGradient(c2,c1,depth);
 colors_rgb = grad1;
 
 %% load results from file
@@ -27,7 +23,10 @@ file_location = '../data/';
 load(append(file_location,"stochastic_output_31Jul2024125047.mat"))
 
 %% Plotting
-f1 = figure(1); set(f1, 'Position', [100 500 900 350]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/96;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*900 factor*350]);
+
 
 Outbreak_thresh = 50; %50 cases denotes an outbreak
 
@@ -109,7 +108,8 @@ iqr(outbreaklistproportion')  %interquartile range
 
 
 %% histogram of outbreak final size and final time
-f2 = figure(2); set(f2, 'Position', [100 500 450 900]);
+f2 = figure(2); set(f2, 'Position', [100 500 600 900]);
+
 sizeVec = [stochSIR_sir.Final_Size stochSIR_negcorr.Final_Size stochSIR_uncorr.Final_Size stochSIR_poscorr.Final_Size];
 timeVec = [stochSIR_sir.Final_Time stochSIR_negcorr.Final_Time stochSIR_uncorr.Final_Time stochSIR_poscorr.Final_Time];
 sizexrange = [min(sizeVec) max(sizeVec)*1.1];
@@ -118,87 +118,106 @@ nbins = 100;
 sedges = 0:max(sizeVec)/nbins:max(sizeVec);
 tedges =  0:max(timeVec)/nbins:max(timeVec);
 
-subplot(4,2,1)
+label_xpos = 0.025;
+label_ypos = 1.06;
+label_fontSz = 15;
+
+leftxlabel = "Final outbreak size";
+rightxlabel = "Outbreak duration (days)";
+
+
+t = tiledlayout(4,2);
+nexttile
+%subplot(4,2,1)
 histogram(stochSIR_sir.Final_Size,sedges,'FaceColor',colorsbox(1,:),'FaceAlpha',1)
 xlim(sizexrange)
-xlabel('Final outbreak size')
+xlabel(leftxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"SIR",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'A'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,2)
+nexttile
+%subplot(4,2,2)
 histogram(stochSIR_sir.Final_Time,tedges,'FaceColor',colorsbox(1,:),'FaceAlpha',1)
 xlim(timexrange)
-xlabel('Final outbreak time')
+xlabel(rightxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"SIR",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'B'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,3)
+nexttile
+%subplot(4,2,3)
 histogram(stochSIR_negcorr.Final_Size,sedges,'FaceColor',colorsbox(2,:),'FaceAlpha',1)
 xlim(sizexrange)
-xlabel('Final outbreak size')
+xlabel(leftxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"\rho=-0.6",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'C'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,4)
+nexttile
+%subplot(4,2,4)
 histogram(stochSIR_negcorr.Final_Time,tedges,'FaceColor',colorsbox(2,:),'FaceAlpha',1)
 xlim(timexrange)
-xlabel('Final outbreak time')
+xlabel(rightxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"\rho=-0.6",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'D'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,5)
+nexttile
+%subplot(4,2,5)
 histogram(stochSIR_uncorr.Final_Size,sedges,'FaceColor',colorsbox(3,:),'FaceAlpha',1)
 xlim(sizexrange)
-xlabel('Final outbreak size')
+xlabel(leftxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"\rho=0",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'E'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,6)
+nexttile
+%subplot(4,2,6)
 histogram(stochSIR_uncorr.Final_Time,tedges,'FaceColor',colorsbox(3,:),'FaceAlpha',1)
 xlim(timexrange)
-xlabel('Final outbreak time')
+xlabel(rightxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"\rho=0",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'F'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,7)
+nexttile
+%subplot(4,2,7)
 histogram(stochSIR_poscorr.Final_Size,sedges,'FaceColor',colorsbox(4,:),'FaceAlpha',1)
 xlim(sizexrange)
-xlabel('Final outbreak size')
+xlabel(leftxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"\rho=0.6",'Location','northeast','Box','off','FontSize',14)
 
 
 txt = {'G'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
-subplot(4,2,8)
+nexttile
+%subplot(4,2,8)
 histogram(stochSIR_poscorr.Final_Time,tedges,'FaceColor',colorsbox(4,:),'FaceAlpha',1)
 xlim(timexrange)
-xlabel('Final outbreak time')
+xlabel(rightxlabel,'FontSize',14,'FontName','Times');
 dummyh = line(nan, nan, 'Linestyle', 'none', 'Marker', 'none', 'Color', 'none');
 legend(dummyh,"\rho=0.6",'Location','northeast','Box','off','FontSize',14)
 
 txt = {'H'};
-text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
+text(label_xpos,label_ypos,txt,'Units','normalized','FontSize',label_fontSz,'FontWeight','bold');
 
+t.TileSpacing = 'compact';
+t.Padding = 'compact';
 
 
 

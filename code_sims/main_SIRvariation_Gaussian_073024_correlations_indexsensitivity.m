@@ -1,5 +1,3 @@
-% function void = main_SIRvariation_Gaussian_correlations_indexsensitivity(void)
-
 % simulate SIR model with transmissibility & susceptibility variation
 % using Gaussian distribution
 % vary mean delta of index case ...
@@ -13,11 +11,10 @@ save_results = 1;
 % 0: don't save
 % 1: save
 
-% have to manually select :(
+% setting up options for changing index case
 
-% filename_results = 'GaussianNoCorrelation_N10000_delta0pt5.mat';
-% filename_results = 'GaussianNoCorrelation_N10000_delta2.mat';
-filename_results = 'GaussianNoCorrelation_N10000.mat';
+filenamelist = {'GaussianNoCorrelation_N10000_delta0pt5.mat'; 'GaussianNoCorrelation_N10000.mat'; 'GaussianNoCorrelation_N10000_delta2.mat'};
+setIdeltamean = [0.5 1 2];  %scenarios with differing mean delta corresponding to index case
 
 
 %% options
@@ -45,17 +42,14 @@ save_distributions = 0; % save distribution at certain time?
 index_day_distribution = 25; % what time? (days)
 
 % want to read in distribution from a file?
-readin_init_joint = 0;
-
-%  manually change over :(
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt6_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianPositiveCorrelation_0pt3_joint_expgrowth.mat';
+readin_init_joint = 1;
 filename_distributions_load = 'Gaussian_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt3_joint_expgrowth.mat';
-% filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
 
-%  = [0    0.4470    0.7410; 0.8500    0.3250    0.0980; 0.9290    0.6940    0.1250];
 my_rgb_colors = [78 132 193; 209 109 106; 236 180 118]/255;
+
+%for each scenario with differing index case 
+for aa = 1:length(filenamelist)
+filename_results = filenamelist{aa};
 
 
 %% parameters
@@ -107,14 +101,11 @@ params.t_span = t_span;
 
 %% Initialize Joint Distributions & calculate Marginals
 
-if readin_init_joint
+if readin_init_joint  %MUST be set to 1 for this to work correctly here.
 
     % read in joint distribution from file, e.g., during exponential growth
 
     folder_location = './sim_results/';
-    % filename_distributions_load = 'Gaussian_joint_expgrowth_nocorr.mat';
-    % filename_distributions_load = 'GaussianNegativeCorrelation_0pt6_joint_expgrowth.mat';
-
 
     load(strcat(folder_location,filename_distributions_load));
     init_joint_S  = data.init_joint_S;
@@ -127,7 +118,7 @@ if readin_init_joint
     % concentrated initial joint in I at 
     % delta = 0.5, or delta = 2
     % set_mean_delta_I = 0.5;
-    set_mean_delta_I = 2;
+    set_mean_delta_I = setIdeltamean(aa);
     ind_eps = find(eps > 1);
     ind_delta = find(del > set_mean_delta_I);
     
@@ -257,7 +248,7 @@ params.corr_coeff = calc_corr_coeff;
 params.mean_delta_I = mean_delta_I;
 params.mean_eps_I = mean_eps_I;
 params.variance_eps_S = variance_eps_S;
-params.variance_delta_S = variance_delta_S
+params.variance_delta_S = variance_delta_S;
 params.covariance_S = covariance_S;
 params.init_joint_S = init_joint_S;
 params.init_joint_I = init_joint_I;
@@ -267,8 +258,6 @@ params.init_joint_I = init_joint_I;
 S_init = N-1;
 I_init = 1;
 R_init = 0;
-
-% end
 
 init_values_S_eps_delta = (dx)^2*init_joint_S*S_init;
 params.init_values_S_eps_delta = init_values_S_eps_delta;
@@ -284,13 +273,8 @@ init_conds = [reshape(init_values_S_eps_delta, m*n,1); reshape(init_values_I_eps
 %check should equal to population size
 % sum(sum((init_S_eps_delta_values + init_I_eps_delta_values + init_R_eps_delta_values),2));
 
-% plot initial distributions - if you want!
-if 1
-
-    plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
-
-end
-
+% plot initial distributions
+plt_distributions(eps_plt, del_plt, init_joint_S, init_joint_I, init_marginal_eps_S, init_marginal_delta_S, init_marginal_eps_I, init_marginal_delta_I, my_rgb_colors)
 
 %% Simulate model
 
@@ -580,15 +564,6 @@ if run_variation_susc_SIR
 
 end
 
-% if run_reduced_SIR
-% 
-%     plot(params.t_span, S_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, I_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-%     plot(params.t_span, R_traj_SIR_reduced,'k--','LineWidth',2); hold on;
-% 
-% end
-
-% axis([0 t_end 0 1.1]);
 xlabel('Time (days)'); ylabel({'Population'; 'Fraction'});
 title('Dynamics')
 legend(q,{'S','I','R'},'Location','SouthWest');
@@ -598,9 +573,6 @@ subplot(3,1,2);
 r(2)=plot(params.t_span, mean_delta_I_traj,'-','Color',my_rgb_colors(2,:),'LineWidth',2); hold on;
 r(1)=plot(params.t_span, mean_eps_S_traj,'-','Color',my_rgb_colors(3,:),'LineWidth',2); hold on;
 
-
-% axis([0 t_end 0.2 1.2]);
-% ylim([0 2])
 title('Mean Trajectories');
 xlabel('Time (days)'); %ylabel({'Population'; 'Fraction'});
 set(gca,'LineWidth',1,'FontSize',14, 'FontWeight','normal','FontName','Times');
@@ -616,8 +588,6 @@ if run_classic_SIR
 end
 
 plot(params.t_span, Rt_traj_eps_delta,'Color',my_rgb_colors(1,:),'LineWidth',2); hold on;
-
-% axis([0 t_end 0.2 2.2]);
 
 xlabel('Time (days)'); ylabel([{'Effective'; 'Reproduction'; 'Number'}]);
 set(gca,'LineWidth',1,'FontSize',14, 'FontWeight','normal','FontName','Times');
@@ -663,12 +633,7 @@ if want_to_plt_distributions
 
     end
 
-
-
-
 end
-
-
 
 
 %% collect results
@@ -720,8 +685,6 @@ results.CV2_delta_S_traj = CV2_delta_S_traj;
 % CV^2 transmissibility
 results.CV2_delta_I_traj = CV2_delta_I_traj;
 
-
-
 %%
 % save simulated results
 if save_results==1
@@ -729,27 +692,18 @@ if save_results==1
     folder_location = './../data/';
 
     if save_additional_results
-
         % + classic + variation susceptibility + reduced model
         save(strcat(folder_location,filename_results),'params','results','results_classic','results_var_susc','results_reduced');
-
-
     else
-
         % save variation in eps & delta, exclusively
         save(strcat(folder_location,filename_results),'params','results');
-
     end
 
     fprintf('Saved Results to File: \n');
     fprintf(strcat(filename_results,'\n'));
-
 else
-
     fprintf('Results Not Saved. \n');
-
 end
 
 
-
-
+end

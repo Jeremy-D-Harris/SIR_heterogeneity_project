@@ -1,13 +1,10 @@
-% function void = main_plt_Figure_correlations_speed(void)
-% function void = main_plt_Figure_correlations_speed_072924(void)
-
 % want to plot correlations vs speed & strength
 
 %%
 
 clear all; close all; clc;
 
-save_fig_ans = 0;
+save_fig_ans = 1;
 % save figure:
 % 0 = no, 1 = yes
 
@@ -18,8 +15,7 @@ c2 = [133,192,249]/255; % light blue
 c1 = [15,32,128]/255; % dark blue
 
 depth = 9;
-[grad1,im]=colorGradient(c2,c1,depth);
-% [grad2,im]=colorGradient(c2,c3,depth);
+grad1=colorGradient(c2,c1,depth);
 
 colors_rgb = grad1;
 
@@ -31,8 +27,6 @@ file_location = '../data/';
 %% (1) positive
 this_infile = 'GaussianPositiveCorrelation_0pt6.mat';
 load(strcat(file_location,this_infile));
-% infile_results = 'Gaussian_lowvariance_update072924.mat';
-% load(strcat(file_location,infile_results));
 
 corr_coef(1) = params.corr_coeff;
 R0_collect(1) = results.Rt_traj(1);
@@ -53,7 +47,7 @@ this_infile = 'GaussianNoCorrelation.mat';
 load(strcat(file_location,this_infile));
 
 % should update?
-corr_coef(3) = 0; %params.corr_coeff;
+corr_coef(3) = params.corr_coeff;
 R0_collect(3) = results.Rt_traj(1);
 total_incidence_collect(:,3) = results.total_incidence;
 
@@ -82,13 +76,15 @@ corrcoef_vary = -1:0.05:1;
 variance_eps_S = 0.49;
 variance_delta_S = 0.34;
 
-R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*sqrt(variance_eps_S)*sqrt(variance_delta_S));
+R0_analytic = (params.bet/params.gam)*(1+corrcoef_vary*sqrt(variance_eps_S)*sqrt(variance_delta_S)); %remember <epsilon(0)> = <delta_S(0)> = 1
 
 
 
 
 %% Plotting
-f1 = figure(1); set(f1, 'Position', [100 500 900 350]);
+X = get(0,'ScreenPixelsPerInch'); %determine screen pixels per inch (96 on windows, 72 on mac os)
+factor = X/72;
+f1 = figure(1); set(f1, 'Position', [100 500 factor*900 factor*350]);
 
 
 %% plot incidence on linear scale
@@ -106,8 +102,6 @@ f1.FontSize = 16;
 f1.FontWeight = 'normal';
 f1.FontName = 'Times';
 
-
-
 txt = {'A'};
 text(0.025,1.035,txt,'Units','normalized','FontSize',18,'FontWeight','bold');
 box on
@@ -117,13 +111,8 @@ legend_char2 = strcat('$\rho = \,$',num2str(corr_coef(2),'%0.1f'));
 legend_char3 = strcat('$\rho = \,$',num2str(corr_coef(3),'%0.1f'));
 legend_char4 = strcat('$\rho = \,$',num2str(corr_coef(4),'%0.1f'));
 legend_char5 = strcat('$\rho = \,$',num2str(corr_coef(5),'%0.1f'));
-%legend_char4 = 'Classic SIR';
 
 legend(this_h,{legend_char1,legend_char2,legend_char3,legend_char4,legend_char5}, 'Interpreter','Latex','FontSize',16, 'Location','Northeast');
-
-% end
-
-
 
 
 %% Panel B
