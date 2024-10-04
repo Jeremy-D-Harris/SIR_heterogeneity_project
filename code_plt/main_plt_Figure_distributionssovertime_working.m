@@ -30,7 +30,7 @@ file_location = '../data/';
 
 for count = 1:3
 
-    if count==1
+    if count==1`
         % (1) positive correlations
         infile_independent = 'GaussianPositiveCorrelation_0pt6_matchR0.mat';
         load(strcat(file_location,infile_independent));
