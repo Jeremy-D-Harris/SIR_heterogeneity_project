@@ -219,7 +219,9 @@ text(0.025,1.035,txt,'Units','normalized','FontSize',16,'FontWeight','bold');
 legend_char1 = 'Marginal Potential Transmissibility at $t_0$, $h_S(t_0,\delta)$';
 legend_char2 = 'Marginal Effective Transmissibility at $t_1$, $h_I(t_1,\delta)$';
 
-legend(this_t,{legend_char1,legend_char2}, 'Interpreter','Latex','Position',[0.76 0.393 0.06 0.05],'FontSize',10);
+%LL = legend(this_t,{legend_char1,legend_char2}, 'Interpreter','Latex','Position',[0.76 0.393 0.06 0.05],'FontSize',10);
+LL = legend(this_t,{legend_char1,legend_char2}, 'Interpreter','Latex','Position',[0.694 0.393 0.21 0.05],'FontSize',10);
+LL.ItemTokenSize = [25,25];
 
 
 %% save figure?
